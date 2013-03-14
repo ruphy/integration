@@ -38,25 +38,53 @@ IntegraleDeterministico::IntegraleDeterministico()
     std::cout << trapezi() << std::endl;
     std::cout << std::endl;
 
+    std::cout << "L'integrale della funzione con il metodo dei Simpson e'" << std::endl;
+    std::cout << simpson() << std::endl;
+    std::cout << std::endl;
 }
 
 double IntegraleDeterministico::trapezi()
 {
     double integrale = 0;
     for (int i = 0; i < m_intervalli; i++) {
-        integrale += m_l/2 * (f_test(x_i(i)), f_test(x_i(i+1)) ) ;
+        integrale += m_l/2 * (f_test(x_i(i)) + f_test(x_i(i+1)) ) ;
     }
     return integrale;
 }
 
 double IntegraleDeterministico::simpson()
 {
-    return 0;
+    double integrale = 0;
+    for (int i = 0; i < m_intervalli-1; i+=2) {
+        integrale += m_l/3 * (f_test(x_i(i)) + 4*f_test(x_i(i+1)) + f_test(x_i(i+2)) ) ;
+    }
+    return integrale;
 }
 
 double IntegraleDeterministico::gauss()
 {
-    return 0;
+    double integrale = 0;
+
+    for (int i = 0; i < m_intervalli; i++) {
+
+        double c = (x_i(i+1)+x_i(i))/2.;
+        double m = (x_i(i+1)-x_i(i))/2.;
+
+        //roots    weights
+        // 0.0   0.56888889
+        // +-0.53846931 0.47862867
+        // +-0.90617985 0.23692689
+        
+        integrale += m*0.56888889*f_test(c); // root = 0
+
+        integrale += m*0.47862867*f_test(c - m*0.53846931);
+        integrale += m*0.47862867*f_test(c + m*0.53846931);
+
+        integrale += m*0.23692689*f_test(c - m*0.90617985);
+        integrale += m*0.23692689*f_test(c + m*0.90617985);
+    }
+
+    return integrale;
 }
 
 void IntegraleDeterministico::setIntervalli(int intervalli)
