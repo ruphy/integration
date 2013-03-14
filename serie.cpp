@@ -59,7 +59,7 @@ float Serie::sommaDecrescente(int N)
 
 void Serie::run()
 {
-    int N = pow(2,30);
+    int N = pow(2,10);
     
 //     std::cout.precision(std::numeric_limits<float>::digits10 + 1);
 //     std::cout.precision(7);
@@ -78,5 +78,22 @@ void Serie::run()
     std::cout << "Errore della somma crescente: " << somma1 - EXPECTED << std::endl;
     std::cout << "Errore della somma decrescente: " << somma2 - EXPECTED << std::endl;
     std::cout << std::endl;
+
+    // **************************
+    // Output per la statistica
+    // **************************
+    std::cout << "Somma Crescente" << std::endl;
+    for (int i = 1; i < 31; i++) {
+        int N = pow(2,i);
+        float somma1 = sommaCrescente(N);
+        std::cout << "[" << N << ", " << somma1 << ", " << somma1 - EXPECTED << "]" << std::endl;
+    }
+
+    std::cout << "Somma Decrescente" << std::endl;
+    for (int i = 1; i < 31; i++) {
+        int N = pow(2,i);
+        float somma2 = sommaDecrescente(N);
+        std::cout << "[" << N << ", " << somma2 << ", " << somma2 - EXPECTED << "]" << std::endl;
+    }
 }
 
