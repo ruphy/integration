@@ -23,13 +23,12 @@
 
 #include "esbase.h"
 
-
 class IntegraleMC : public EsBase
 {
 
 public:
     IntegraleMC();
-    ~IntegraleMC();
+//     ~IntegraleMC();
 
 
 };
