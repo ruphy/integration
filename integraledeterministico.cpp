@@ -50,8 +50,6 @@ IntegraleDeterministico::IntegraleDeterministico()
 
 
     std::cout.precision(std::numeric_limits<double>::digits10 + 1);
-//     std::cout.precision(7);
-//     std::cout << std::numeric_limits<double>::digits10 + 1 << std::endl;
 
     // Statistica
     for (int i = 0; i <= 1000; i++) {

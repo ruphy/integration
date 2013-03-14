@@ -1,6 +1,16 @@
 
+# Risultati di integrazione tra 1 e 10
 
-integrali = 
+## Legenda:
+# [0]: n intervalli
+# [1]: trapezi
+# [2]: simpson
+# [3]: quadrature gaussiane
+
+### Funzione 1
+### (exp(x)+1+pow(x,9)-8*pow(x,8)+sinh(5*x))*exp(-pow(x,2));
+
+funzione1 = 
 [[0, 0, 0, 0],
 [1, 117.4075154705481, 0, 465.0509655281559],
 [2, 58.84759473656114, 39.32762115856549, 411.3857610994526],
