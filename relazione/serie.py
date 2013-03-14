@@ -11,3 +11,27 @@ sommaDecrescente = [[2, 1.25, -0.394934],[4, 1.42361, -0.221323],[8, 1.52742, -0
 
 # TODO: Make plot of this
 
+import matplotlib.pyplot as plt
+
+plt.clf()
+plt.title(r"$\sum_{i=1}^{N} \frac{1}{n^2}$")
+#for i in [1, 2]:
+a = []
+n = []
+for el in sommaCrescente:
+  a.append(abs(el[2]))
+  n.append(el[0])
+plt.plot(n, a)
+for el in sommaDecrescente:
+  a.append(abs(el[2]))
+  n.append(el[0])
+plt.plot(n, a)
+plt.yscale('log')
+plt.xscale('log')
+  
+plt.legend(('Metodo dei trapezi', 'Metodo di Simpson'),
+           'upper center', shadow=True, fancybox=True)
+plt.grid(True)
+plt.savefig("serie.png")
+
+

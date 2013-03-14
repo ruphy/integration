@@ -22,14 +22,20 @@
 #define INTEGRALEMC_H
 
 #include "esbase.h"
+#include <boost/random/mersenne_twister.hpp>
 
 class IntegraleMC : public EsBase
 {
 
 public:
-    IntegraleMC();
+    IntegraleMC(double a, double b);
 //     ~IntegraleMC();
-
+private:
+    double run();
+    
+    boost::random::mt19937 *m_gen;
+    const double m_a, m_b;
+    int m_n;
 
 };
 

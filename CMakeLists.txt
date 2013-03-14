@@ -1,11 +1,12 @@
 project(integration)
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
-set(modules/gauss.c modules/ranlxd.c modules/ranlxs.c  modules/start.c  modules/utils.c OTHER_FILES)
+find_package(Boost)
+INCLUDE_DIRECTORIES("${Boost_INCLUDE_DIRS}" ${CMAKE_SOURCE_DIR})
 
-add_executable(integration ${OTHER_FILES}
-main.cpp serie.cpp integraledeterministico.cpp
-integralemc.cpp)
+add_executable(integration main.cpp serie.cpp integraledeterministico.cpp integralemc.cpp)
+
+target_link_libraries(integration  ${Boost_LIBRARIES})
 
 install(TARGETS integration RUNTIME DESTINATION bin)

@@ -3,6 +3,7 @@
 
 #include "serie.h"
 #include "esbase.h"
+#include "integralemc.h"
 #include "integraledeterministico.h"
 
 class Esercizi {
@@ -27,6 +28,9 @@ void Esercizi::run(Esercizi::Esercizio tipo)
         case IntDeterm:
             es = new IntegraleDeterministico;
             return;
+        case IntMontecarlo:
+            es = new IntegraleMC(1, 10);
+            return;
         default:
             std::cout << "Esercizio non ancora implementato" << std::endl;
     }
@@ -37,7 +41,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::IntDeterm);
+    es.run(Esercizi::IntMontecarlo);
 
     return 0;
 }

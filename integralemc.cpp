@@ -22,16 +22,35 @@
 
 #include <iostream>
 #include <math.h>
+#include <time.h>
 
-#include "modules/random.h"
+#include <boost/random/uniform_real_distribution.hpp>
+#include <boost/random/mersenne_twister.hpp>
 
 double f_mc(double x)
 {
     return (exp(x)+1+pow(x,9)-8*pow(x,8)+sinh(5*x))*exp(-pow(x,2));
 }
 
-IntegraleMC::IntegraleMC()
+IntegraleMC::IntegraleMC(double a, double b)
+    : m_a(a),
+      m_b(b)
 {
-
+    m_gen = new boost::random::mt19937(time(0) + getpid());
+    m_n = 1000000;
+    std::cout << run() << std::endl;
 }
+
+double IntegraleMC::run()
+{
+    boost::random::uniform_real_distribution<double> dist(0, 1);
+
+    double integrale = 0.;
+
+    for (int i = 0; i < m_n; i++) {
+        integrale += f_mc( m_a + (m_b-m_a)*dist(*m_gen))*(m_b-m_a) ;//(dist(*m_gen)-m_a)/(m_b-m_a) );
+    }
+    return (integrale/m_n);
+}
+
 
