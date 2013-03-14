@@ -1016,6 +1016,7 @@ funzione1 = [[0, 0, 0, 0],
 import matplotlib.pyplot as plt
 
 plt.clf()
+plt.title(r"$\int_1^{10} (e^x+1+x^9-8x^8+sinh(5x))e^{-x^2}dx$")
 for i in [1, 2, 3]:
   a = []
   n = []
@@ -1025,5 +1026,8 @@ for i in [1, 2, 3]:
   plt.plot(n, a)
   plt.yscale('log')
   
+plt.legend(('Metodo dei trapezi', 'Metodo di Simpson', 'Quadrature gaussiane'),
+           'upper center', shadow=True, fancybox=True)
+plt.grid(True)
 plt.savefig("out.png")
 
