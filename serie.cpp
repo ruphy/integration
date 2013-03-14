@@ -61,10 +61,6 @@ void Serie::run()
 {
     int N = pow(2,10);
     
-//     std::cout.precision(std::numeric_limits<float>::digits10 + 1);
-//     std::cout.precision(7);
-//     std::cout << std::numeric_limits<float>::digits10 + 1 << endl;
-    
     std::cout << "Risultato del calcolo" << std::endl;
     float somma1 = sommaCrescente(N);
     std::cout << "Somma crescente 1->" << N << ": " << somma1 << std::endl;
