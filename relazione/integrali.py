@@ -1029,5 +1029,5 @@ for i in [1, 2, 3]:
 plt.legend(('Metodo dei trapezi', 'Metodo di Simpson', 'Quadrature gaussiane'),
            'upper center', shadow=True, fancybox=True)
 plt.grid(True)
-plt.savefig("out.png")
+plt.savefig("integrali.png")
 
