@@ -20,4 +20,44 @@
 
 #include "integraledeterministico.h"
 
+#include <iostream>
 
+double f_test(double x)
+{
+    return x+1;
+}
+
+IntegraleDeterministico::IntegraleDeterministico()
+{
+    intervalli = 10;
+    a = 1;
+    b = 10;
+
+    l = (b-a)/intervalli; // Larghezza dell'intervallo
+
+
+}
+
+double IntegraleDeterministico::trapezi()
+{
+    double integrale = 0;
+    for (int i = 0; i < intervalli; i++) {
+
+        integrale += l/2 * (f_test(x_i(i)), f_test(x_i(i+1)) ) ;
+    }
+}
+
+double IntegraleDeterministico::simpson()
+{
+    return 0;
+}
+
+double IntegraleDeterministico::gauss()
+{
+    return 0;
+}
+
+double IntegraleDeterministico::x_i(int i)
+{
+    return (a + l*i);
+}

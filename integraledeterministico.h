@@ -26,6 +26,20 @@ class IntegraleDeterministico : public EsBase
 {
 public:
     IntegraleDeterministico();
+private:
+    double trapezi();
+    double simpson();
+    double gauss();
+
+    /**
+     * Valore di x dell'intervallo i-esimo, dove
+     * x_i(0) = a
+     * x_i(intervalli) = b
+     */
+    double x_i(int i);
+
+    double a, b, l;
+    int intervalli;
 };
 
 #endif // INTEGRALEDETERMINISTICO_H
