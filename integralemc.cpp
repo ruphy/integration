@@ -37,8 +37,13 @@ IntegraleMC::IntegraleMC(double a, double b)
       m_b(b)
 {
     m_gen = new boost::random::mt19937(time(0) + getpid());
-    m_n = 1000000;
-    std::cout << run() << std::endl;
+
+    // Statistica
+    for (int i = 100; i < pow(2, 25); i+=1000) {
+        m_n = i;
+        std::cout.precision(std::numeric_limits<double>::digits10 + 1);
+        std::cout << "[" <<  i << ", " << run() << "],";// << std::endl;
+    }
 }
 
 double IntegraleMC::run()
