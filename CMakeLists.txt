@@ -1,8 +1,10 @@
 project(integration)
 
-set(MODULES_FILES modules/*.c)
+cmake_minimum_required(VERSION 2.6)
 
-add_executable(integration MODULES_FILES
+set(modules/gauss.c modules/ranlxd.c modules/ranlxs.c  modules/start.c  modules/utils.c OTHER_FILES)
+
+add_executable(integration ${OTHER_FILES}
 main.cpp serie.cpp integraledeterministico.cpp)
 
 install(TARGETS integration RUNTIME DESTINATION bin)
