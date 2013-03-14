@@ -29,22 +29,24 @@ double f_test(double x)
 
 IntegraleDeterministico::IntegraleDeterministico()
 {
-    intervalli = 10;
-    a = 1;
-    b = 10;
+    m_a = 1;
+    m_b = 10;
+    setIntervalli(10);
 
-    l = (b-a)/intervalli; // Larghezza dell'intervallo
 
+    std::cout << "L'integrale della funzione con il metodo dei trapezi e'" << std::endl;
+    std::cout << trapezi() << std::endl;
+    std::cout << std::endl;
 
 }
 
 double IntegraleDeterministico::trapezi()
 {
     double integrale = 0;
-    for (int i = 0; i < intervalli; i++) {
-
-        integrale += l/2 * (f_test(x_i(i)), f_test(x_i(i+1)) ) ;
+    for (int i = 0; i < m_intervalli; i++) {
+        integrale += m_l/2 * (f_test(x_i(i)), f_test(x_i(i+1)) ) ;
     }
+    return integrale;
 }
 
 double IntegraleDeterministico::simpson()
@@ -57,7 +59,13 @@ double IntegraleDeterministico::gauss()
     return 0;
 }
 
+void IntegraleDeterministico::setIntervalli(int intervalli)
+{
+    m_intervalli = intervalli;
+    m_l = (m_b-m_a)/m_intervalli; // Larghezza dell'intervallo
+}
+
 double IntegraleDeterministico::x_i(int i)
 {
-    return (a + l*i);
+    return (m_a + m_l*i);
 }

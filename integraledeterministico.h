@@ -31,6 +31,8 @@ private:
     double simpson();
     double gauss();
 
+    void setIntervalli(int intervalli);
+
     /**
      * Valore di x dell'intervallo i-esimo, dove
      * x_i(0) = a
@@ -38,8 +40,8 @@ private:
      */
     double x_i(int i);
 
-    double a, b, l;
-    int intervalli;
+    double m_a, m_b, m_l;
+    int m_intervalli;
 };
 
 #endif // INTEGRALEDETERMINISTICO_H
