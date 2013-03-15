@@ -51,7 +51,7 @@ IntegraleMC::IntegraleMC(double a, double b)
 //         std::cout << "[" <<  i << ", " << run() - 417.8077704440582 << "]," << std::endl;
 //     }
 
-    for (int i = 1000; i < pow(10, 8); i += 1000) {
+    for (int i = 1000; i < pow(10, 8); i += 1000*log(i/2)) {
         m_n = i;
         statRun();
     }
