@@ -11,8 +11,7 @@
 ### (exp(x)+1+pow(x,9)-8*pow(x,8)+sinh(5*x))*exp(-pow(x,2));
 ## Integrale vero = 417.8077704440582
 funz1vero = 417.8077704440582
-funzione1 = [[0, 0, 0, 0],
-[1, 117.4075154705481, 0, 465.0509655281559],
+funzione1 = [[1, 117.4075154705481, 0, 465.0509655281559],
 [2, 58.84759473656114, 39.32762115856549, 411.3857610994526],
 [3, 120.9445822949099, 135.1688828191317, 418.2017771758039],
 [4, 358.0333371798721, 457.7619179943091, 417.8115628800424],
@@ -1023,11 +1022,35 @@ for i in [1, 2, 3]:
   for el in funzione1:
     a.append(abs(el[i]-funz1vero))
     n.append(el[0])
-  plt.plot(n, a)
+  plt.plot(n, a, '.-')
   plt.yscale('log')
+  plt.xscale('log')
   
+plt.xlabel('Numero di intervalli')
+plt.ylabel('Errore (modulo)')
 plt.legend(('Metodo dei trapezi', 'Metodo di Simpson', 'Quadrature gaussiane'),
-           'upper center', shadow=True, fancybox=True)
+           'lower left', shadow=True, fancybox=True)
 plt.grid(True)
 plt.savefig("integrali.png")
+
+
+plt.clf()
+plt.title(r"$\int_1^{10} (e^x+1+x^9-8x^8+\sinh(5x))e^{-x^2}dx$")
+for i in [1, 2, 3]:
+  a = []
+  n = []
+  for el in funzione1:
+    a.append(abs(el[i]-funz1vero))
+    n.append(1./(10*el[0]))
+  plt.plot(n, a, '.-')
+  plt.yscale('log')
+  plt.xscale('log')
+  
+plt.xlabel('Larghezza dell\'intervallo')
+plt.ylabel('Errore (modulo)')
+plt.legend(('Metodo dei trapezi', 'Metodo di Simpson', 'Quadrature gaussiane'),
+           'lower right', shadow=True, fancybox=True)
+plt.grid(True)
+plt.savefig("integrali-intervalli.png")
+
 

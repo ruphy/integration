@@ -14,7 +14,7 @@ sommaDecrescente = [[2, 1.25, -0.394934],[4, 1.42361, -0.221323],[8, 1.52742, -0
 import matplotlib.pyplot as plt
 
 plt.clf()
-plt.title(r"$\sum_{i=1}^{N} \frac{1}{n^2}$")
+plt.title(r"$\sum_{n=1}^{N} \frac{1}{n^2}$")
 #for i in [1, 2]:
 a = []
 n = []
@@ -30,7 +30,9 @@ for el in sommaDecrescente:
 plt.plot(n, a, '.')
 plt.yscale('log')
 plt.xscale('log')
-  
+plt.xlabel(r'$N$')
+plt.ylabel('Errore (modulo)')
+
 plt.legend(('Somma crescente', 'Somma decrescente'),
            'upper center', shadow=True, fancybox=True)
 plt.grid(True)
