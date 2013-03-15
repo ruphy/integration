@@ -1,3 +1,0 @@
-
-execfile(dati-integralimc.py)
-
