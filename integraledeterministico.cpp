@@ -86,7 +86,9 @@ double IntegraleDeterministico::gauss()
         double c = (x_i(i+1)+x_i(i))/2.;
         double m = (x_i(i+1)-x_i(i))/2.;
 
-        //roots    weights
+        // http://mathworld.wolfram.com/Legendre-GaussQuadrature.html
+        //
+        // roots    weights
         // 0.0   0.56888889
         // +-0.53846931 0.47862867
         // +-0.90617985 0.23692689
