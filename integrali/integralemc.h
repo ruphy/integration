@@ -32,10 +32,12 @@ public:
 //     ~IntegraleMC();
 private:
     double run();
+    void statRun();
 
     // smart add the partial results (basing on the magnitude)
     void add(double value);
     double getIntegral();
+    void resetIntegral();
 
     // we're using double --> 11 bit for the exponent
     // this implies we can get 2046 different values

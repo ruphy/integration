@@ -36,9 +36,7 @@ IntegraleMC::IntegraleMC(double a, double b)
     : m_a(a),
       m_b(b)
 {
-    for (int i = 0; i < DOUBLEEXP; i++) {
-        m_partialIntegral[i] = 0;
-    }
+    resetIntegral();
 
     // "Mersenne Twister: A 623-dimensionally equidistributed uniform pseudo-random
     // number generator", Makoto Matsumoto and Takuji Nishimura, ACM Transactions
@@ -47,11 +45,58 @@ IntegraleMC::IntegraleMC(double a, double b)
     m_gen = new boost::random::mt19937(time(0) + getpid());
 
     // Statistica
-    for (int i = 10; i < pow(10, 10); i *= 1.25) {
+//     for (int i = 100; i < pow(10, 8); i += 100) {
+//         m_n = i;
+//         std::cout.precision(std::numeric_limits<double>::digits10 + 1);
+//         std::cout << "[" <<  i << ", " << run() - 417.8077704440582 << "]," << std::endl;
+//     }
+
+    for (int i = 100; i < pow(10, 8); i += 100) {
         m_n = i;
-        std::cout.precision(std::numeric_limits<double>::digits10 + 1);
-        std::cout << "[" <<  i << ", " << run() - 417.8077704440582 << "]," << std::endl;
+        statRun();
     }
+}
+
+void IntegraleMC::statRun()
+{
+    boost::random::uniform_real_distribution<double> dist(0, 1);
+
+    double intMean = 0;
+    double intErr = 0;
+    unsigned int jmax = 30;
+
+    // 30 run per ogni n, così da avere risultati più stabili
+    for (int j = 0; j < jmax; j++) {
+        double mean = 0;
+        double stddev = 0;
+        double sigmaI = 0;
+
+        for (int i = 0; i < m_n; i++) {
+            double fxi = f_mc(m_a + (m_b - m_a) * dist(*m_gen)) * (m_b - m_a);
+            add(fxi);
+
+            // Errori di arrotondamento nel calcolo dell'incertezza sono trascurabili
+            sigmaI += pow(fxi, 2);
+        }
+
+        mean = (getIntegral() / m_n);
+        sigmaI = sqrt(sigmaI/m_n-pow(mean,2));
+        stddev = (m_b - m_a)*sigmaI/sqrt(m_n);
+
+//         std::cout << stddev <<std::endl;
+
+        intMean += mean;
+        intErr += pow(stddev, 2); // somma in quadrature
+
+        resetIntegral();
+    }
+
+    intErr = sqrt(intErr)/jmax;
+    intMean = intMean/jmax;
+
+    std::cout.precision(std::numeric_limits<double>::digits10 + 1);
+    std::cout << "[" <<  m_n << "," << intMean << "," << intErr << "]," << std::endl;
+
 }
 
 double IntegraleMC::run()
@@ -62,6 +107,13 @@ double IntegraleMC::run()
         add(f_mc(m_a + (m_b - m_a) * dist(*m_gen)) * (m_b - m_a));
     }
     return (getIntegral() / m_n);
+}
+
+void IntegraleMC::resetIntegral()
+{
+    for (int i = 0; i < DOUBLEEXP; i++) {
+        m_partialIntegral[i] = 0;
+    }
 }
 
 void IntegraleMC::add(double value)
