@@ -58,12 +58,10 @@ double IntegraleMC::run()
 {
     boost::random::uniform_real_distribution<double> dist(0, 1);
 
-    double integrale = 0.;
-
     for (int i = 0; i < m_n; i++) {
-        integrale += f_mc(m_a + (m_b - m_a) * dist(*m_gen)) * (m_b - m_a);
+        add(f_mc(m_a + (m_b - m_a) * dist(*m_gen)) * (m_b - m_a));
     }
-    return (integrale / m_n);
+    return (getIntegral() / m_n);
 }
 
 void IntegraleMC::add(double value)
@@ -73,7 +71,7 @@ void IntegraleMC::add(double value)
     double result = frexp(value , &i);
 
     // let's ensure we sum with same orders of magnitude
-    m_partialIntegral[i+1022] += value;
+    m_partialIntegral[i + 1022] += value;
 }
 
 double IntegraleMC::getIntegral()
