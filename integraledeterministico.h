@@ -25,22 +25,24 @@
 class IntegraleDeterministico : public EsBase
 {
 public:
-    IntegraleDeterministico();
+    IntegraleDeterministico(int a, int b);
+
+    void setIntervalli(int intervalli);
+
 private:
     double trapezi();
     double simpson();
     double gauss();
 
-    void setIntervalli(int intervalli);
-
     /**
-     * Valore di x dell'intervallo i-esimo, dove
+     * Ritorna il valore di x dell'intervallo i-esimo, dove
      * x_i(0) = a
      * x_i(intervalli) = b
      */
     double x_i(int i);
 
-    double m_a, m_b, m_l;
+    const double m_a, m_b;
+    double m_l;
     int m_intervalli;
 };
 

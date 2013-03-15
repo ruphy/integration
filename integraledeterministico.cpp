@@ -29,12 +29,11 @@ double f_test(double x)
     return (exp(x)+1+pow(x,9)-8*pow(x,8)+sinh(5*x))*exp(-pow(x,2));
 }
 
-IntegraleDeterministico::IntegraleDeterministico()
+IntegraleDeterministico::IntegraleDeterministico(int a, int b)
+  : m_a(a),
+    m_b(b)
 {
-    m_a = 1;
-    m_b = 10;
     setIntervalli(10);
-
 
     std::cout << "L'integrale della funzione con il metodo dei trapezi e'" << std::endl;
     std::cout << trapezi() << std::endl;

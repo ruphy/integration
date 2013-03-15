@@ -26,7 +26,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
             es = new Serie;
             return;
         case IntDeterm:
-            es = new IntegraleDeterministico;
+            es = new IntegraleDeterministico(1, 10);
             return;
         case IntMontecarlo:
             es = new IntegraleMC(1, 10);
