@@ -20,5 +20,5 @@ plt.xscale('log')
 plt.xlabel('Numero di campionamenti')
 plt.ylabel('Errore (modulo)')
 
-plt.savefig('outmc.png')
+plt.savefig('images/outmc.png')
 

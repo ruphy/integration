@@ -1031,7 +1031,7 @@ plt.ylabel('Errore (modulo)')
 plt.legend(('Metodo dei trapezi', 'Metodo di Simpson', 'Quadrature gaussiane'),
            'lower left', shadow=True, fancybox=True)
 plt.grid(True)
-plt.savefig("integrali.png")
+plt.savefig("images/integrali.png")
 
 
 plt.clf()
@@ -1051,6 +1051,6 @@ plt.ylabel('Errore (modulo)')
 plt.legend(('Metodo dei trapezi', 'Metodo di Simpson', 'Quadrature gaussiane'),
            'lower right', shadow=True, fancybox=True)
 plt.grid(True)
-plt.savefig("integrali-intervalli.png")
+plt.savefig("images/integrali-intervalli.png")
 
 

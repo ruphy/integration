@@ -36,6 +36,6 @@ plt.ylabel('Errore (modulo)')
 plt.legend(('Somma crescente', 'Somma decrescente'),
            'upper center', shadow=True, fancybox=True)
 plt.grid(True)
-plt.savefig("serie.png")
+plt.savefig("images/serie.png")
 
 
