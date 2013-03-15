@@ -3,8 +3,8 @@
 
 #include "serie.h"
 #include "esbase.h"
-#include "integralemc.h"
-#include "integraledeterministico.h"
+#include "integrali/integralemc.h"
+#include "integrali/integraledeterministico.h"
 
 class Esercizi {
 public:
