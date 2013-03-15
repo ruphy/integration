@@ -43,7 +43,6 @@ IntegraleMC::IntegraleMC(double a, double b)
     m_gen = new boost::random::mt19937(time(0) + getpid());
 
     // Statistica
-    std::cout << "a = ["; // for python processing
     for (int i = 10; i < pow(10, 10); i*=1.25) {
         m_n = i;
         std::cout.precision(std::numeric_limits<double>::digits10 + 1);
@@ -58,7 +57,7 @@ double IntegraleMC::run()
     double integrale = 0.;
 
     for (int i = 0; i < m_n; i++) {
-        integrale += f_mc( m_a + (m_b-m_a)*dist(*m_gen))*(m_b-m_a) ;//(dist(*m_gen)-m_a)/(m_b-m_a) );
+        integrale += f_mc(m_a + (m_b-m_a)*dist(*m_gen))*(m_b-m_a);
     }
     return (integrale/m_n);
 }

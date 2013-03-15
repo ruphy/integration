@@ -31,6 +31,9 @@ void Esercizi::run(Esercizi::Esercizio tipo)
         case IntMontecarlo:
             es = new IntegraleMC(1, 10);
             return;
+        case AgoBuffon:
+            es;
+            return;
         default:
             std::cout << "Esercizio non ancora implementato" << std::endl;
     }
