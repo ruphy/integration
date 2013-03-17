@@ -52,7 +52,7 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
     // Statistica
     for (int i = 0; i <= 1000; i++) {
         setIntervalli(i);
-        std::cout << i << " " << trapezi() << " " << simpson() << " " << gauss() << std::endl;
+        std::cout << "[" << i << ", " << trapezi() << ", " << simpson() << ", " << gauss() << "]," << std::endl;
     }
 
 }
