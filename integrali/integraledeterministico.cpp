@@ -59,11 +59,13 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
 
 double IntegraleDeterministico::trapezi()
 {
-    double integrale = 0;
+    resetIntegral();
+
     for (int i = 0; i < intervalli(); i++) {
-        integrale += h()/2 * (f_test(x_i(i)) + f_test(x_i(i+1)) ) ;
+        add( h()/2 * (f_test(x_i(i)) + f_test(x_i(i+1)) ) );
     }
-    return integrale;
+
+    return getIntegral();
 }
 
 double IntegraleDeterministico::simpson()
