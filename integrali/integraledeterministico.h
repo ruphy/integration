@@ -22,6 +22,11 @@
 #define INTEGRALEDETERMINISTICO_H
 #include "integralebase.h"
 
+// #include <boost/multiprecision/gmp.hpp>
+
+typedef double real;
+
+
 class IntegraleDeterministico : public IntegraleBase
 {
 public:
@@ -29,9 +34,9 @@ public:
 
 
 private:
-    double trapezi();
-    double simpson();
-    double gauss();
+    real trapezi();
+    real simpson();
+    real gauss();
 
 };
 

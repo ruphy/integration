@@ -24,7 +24,7 @@
 #include <math.h>
 #include <limits>
 
-double f_test(double x)
+real f_test(real x)
 {
     return (exp(x)+1+pow(x,9)-8*pow(x,8)+sinh(5*x))*exp(-pow(x,2));
 }
@@ -47,7 +47,7 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
     std::cout << std::endl;
 
 
-    std::cout.precision(std::numeric_limits<double>::digits10 + 1);
+    std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 
     // Statistica
     for (int i = 0; i <= 100000; i++) {
@@ -57,7 +57,7 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
 
 }
 
-double IntegraleDeterministico::trapezi()
+real IntegraleDeterministico::trapezi()
 {
     resetIntegral();
 
@@ -68,7 +68,7 @@ double IntegraleDeterministico::trapezi()
     return getIntegral();
 }
 
-double IntegraleDeterministico::simpson()
+real IntegraleDeterministico::simpson()
 {
     resetIntegral();
 
@@ -79,14 +79,14 @@ double IntegraleDeterministico::simpson()
     return getIntegral();
 }
 
-double IntegraleDeterministico::gauss()
+real IntegraleDeterministico::gauss()
 {
     resetIntegral();
 
     for (int i = 0; i < intervalli(); i++) {
 
-        double c = (x_i(i+1)+x_i(i))/2.;
-        double m = (x_i(i+1)-x_i(i))/2.;
+        real c = (x_i(i+1)+x_i(i))/2.;
+        real m = (x_i(i+1)-x_i(i))/2.;
 
         // http://mathworld.wolfram.com/Legendre-GaussQuadrature.html
         //
