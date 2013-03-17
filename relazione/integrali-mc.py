@@ -22,7 +22,11 @@ plt.title(r"Metodo Montecarlo $\int_1^{10} (e^x+1+x^9-8x^8+\sinh(5x))e^{-x^2}dx$
 
 plt.savefig('images/montecarlo-err.png')
 
+oldx = x
+oldy = y
+
 execfile('data/mc-stat-10-8.py')
+
 x = []
 y = []
 errors = []
@@ -50,3 +54,20 @@ plt.ylabel('Errore medio (modulo)')
 plt.title(r"Metodo Montecarlo $\int_1^{10} (e^x+1+x^9-8x^8+\sinh(5x))e^{-x^2}dx$")
 
 plt.savefig('images/montecarlo-con-stat.png')
+
+## Plot comparativo
+
+plt.clf()
+plt.errorbar(x, y, xerr=0, yerr=[yerr_lower, 2*errors], fmt='o') #xerr=errors, fmt='.')
+plt.plot(oldx, oldy, 'o')
+#plt.plot(x, y, 'o')
+plt.yscale('log')
+plt.grid(True)
+plt.xscale('log')
+plt.xlabel('Numero di campionamenti')
+plt.ylabel('Errore medio (modulo)')
+plt.title(r"Metodo Montecarlo $\int_1^{10} (e^x+1+x^9-8x^8+\sinh(5x))e^{-x^2}dx$")
+plt.legend(('Media di 30 integrazioni', 'Una integrazione'),
+           'upper right', shadow=True, fancybox=True)
+           
+plt.savefig('images/montecarlo-comparison.png')
