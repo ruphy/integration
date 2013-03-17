@@ -62,7 +62,8 @@ void IntegraleMC::statRun()
     double intErr = 0;
     unsigned int jmax = 30;
 
-    // 30 run per ogni n, così da avere risultati più stabili
+    // 30 integrazioni per ogni n, valutiamo poi la media e la dev std,
+    // così da avere risultati più stabili
     for (int j = 0; j < jmax; j++) {
         double mean = 0;
         double stddev = 0;
@@ -79,8 +80,6 @@ void IntegraleMC::statRun()
         mean = (getIntegral() / m_n);
         sigmaI = sqrt(sigmaI/m_n-pow(mean,2));
         stddev = (m_b - m_a)*sigmaI/sqrt(m_n);
-
-//         std::cout << stddev <<std::endl;
 
         intMean += mean;
         intErr += pow(stddev, 2); // somma in quadrature

@@ -9,8 +9,7 @@
 
 ### Funzione 1
 ### (exp(x)+1+pow(x,9)-8*pow(x,8)+sinh(5*x))*exp(-pow(x,2));
-## Integrale vero = 417.8077704440582
-funz1vero = 417.8077704440582
+## Integrale vero = 417.80776835502365
 funz1vero = 417.80776835502365 # (Sage) Error: 4.638 e-12
 
 funzione1 = [[1, 117.4075154705481, 0, 465.0509655281559],
