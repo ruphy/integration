@@ -21,10 +21,10 @@
 #ifndef INTEGRALEMC_H
 #define INTEGRALEMC_H
 
-#include "esbase.h"
+#include "integralebase.h"
 #include <boost/random/mersenne_twister.hpp>
 
-class IntegraleMC : public EsBase
+class IntegraleMC : public IntegraleBase
 {
 
 public:
@@ -34,19 +34,7 @@ private:
     double run();
     void statRun();
 
-    // smart add the partial results (basing on the magnitude)
-    void add(double value);
-    double getIntegral();
-    void resetIntegral();
-
-    // we're using double --> 11 bit for the exponent
-    // this implies we can get 2046 different values
-    // as exponent, let's create an array of this size.
-#define DOUBLEEXP 2045
-    double m_partialIntegral[DOUBLEEXP];
-
     boost::random::mt19937* m_gen;
-    const double m_a, m_b;
     int m_n;
 
 };

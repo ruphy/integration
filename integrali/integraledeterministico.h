@@ -20,30 +20,19 @@
 
 #ifndef INTEGRALEDETERMINISTICO_H
 #define INTEGRALEDETERMINISTICO_H
-#include "esbase.h"
+#include "integralebase.h"
 
-class IntegraleDeterministico : public EsBase
+class IntegraleDeterministico : public IntegraleBase
 {
 public:
     IntegraleDeterministico(int a, int b);
 
-    void setIntervalli(int intervalli);
 
 private:
     double trapezi();
     double simpson();
     double gauss();
 
-    /**
-     * Ritorna il valore di x dell'intervallo i-esimo, dove
-     * x_i(0) = a
-     * x_i(intervalli) = b
-     */
-    double x_i(int i);
-
-    const double m_a, m_b;
-    double m_l;
-    int m_intervalli;
 };
 
 #endif // INTEGRALEDETERMINISTICO_H

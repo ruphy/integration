@@ -33,11 +33,8 @@ double f_mc(double x)
 }
 
 IntegraleMC::IntegraleMC(double a, double b)
-    : m_a(a),
-      m_b(b)
+    : IntegraleBase(a, b)
 {
-    resetIntegral();
-
     // "Mersenne Twister: A 623-dimensionally equidistributed uniform pseudo-random
     // number generator", Makoto Matsumoto and Takuji Nishimura, ACM Transactions
     // on Modeling and Computer Simulation: Special Issue on Uniform Random Number
@@ -108,31 +105,3 @@ double IntegraleMC::run()
     }
     return (getIntegral() / m_n);
 }
-
-void IntegraleMC::resetIntegral()
-{
-    for (int i = 0; i < DOUBLEEXP; i++) {
-        m_partialIntegral[i] = 0;
-    }
-}
-
-void IntegraleMC::add(double value)
-{
-    int i;
-    //extracting the exponent
-    double result = frexp(value , &i);
-
-    // let's ensure we sum with same orders of magnitude
-    m_partialIntegral[i + 1022] += value;
-}
-
-double IntegraleMC::getIntegral()
-{
-    double integral;
-    for (int i = 0; i < DOUBLEEXP; i++) {
-        integral += m_partialIntegral[i];
-    }
-    return integral;
-}
-
-

@@ -44,7 +44,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::IntMontecarlo);
+    es.run(Esercizi::IntDeterm);
 
     return 0;
 }

@@ -30,8 +30,7 @@ double f_test(double x)
 }
 
 IntegraleDeterministico::IntegraleDeterministico(int a, int b)
-  : m_a(a),
-    m_b(b)
+  : IntegraleBase(a, b)
 {
     setIntervalli(10);
 
@@ -61,26 +60,28 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
 double IntegraleDeterministico::trapezi()
 {
     double integrale = 0;
-    for (int i = 0; i < m_intervalli; i++) {
-        integrale += m_l/2 * (f_test(x_i(i)) + f_test(x_i(i+1)) ) ;
+    for (int i = 0; i < intervalli(); i++) {
+        integrale += h()/2 * (f_test(x_i(i)) + f_test(x_i(i+1)) ) ;
     }
     return integrale;
 }
 
 double IntegraleDeterministico::simpson()
 {
-    double integrale = 0;
-    for (int i = 0; i < m_intervalli-1; i+=2) {
-        integrale += m_l/3 * (f_test(x_i(i)) + 4*f_test(x_i(i+1)) + f_test(x_i(i+2)) ) ;
+    resetIntegral();
+
+    for (int i = 0; i < intervalli()-1; i+=2) {
+        add( h()/3 * (f_test(x_i(i)) + 4*f_test(x_i(i+1)) + f_test(x_i(i+2)) ) );
     }
-    return integrale;
+
+    return getIntegral();
 }
 
 double IntegraleDeterministico::gauss()
 {
-    double integrale = 0;
+    resetIntegral();
 
-    for (int i = 0; i < m_intervalli; i++) {
+    for (int i = 0; i < intervalli(); i++) {
 
         double c = (x_i(i+1)+x_i(i))/2.;
         double m = (x_i(i+1)-x_i(i))/2.;
@@ -92,25 +93,14 @@ double IntegraleDeterministico::gauss()
         // +-0.53846931 0.47862867
         // +-0.90617985 0.23692689
 
-        integrale += m*0.56888889*f_test(c); // root = 0
+        add( m*0.56888889*f_test(c) ); // root = 0
 
-        integrale += m*0.47862867*f_test(c - m*0.53846931);
-        integrale += m*0.47862867*f_test(c + m*0.53846931);
+        add( m*0.47862867*f_test(c - m*0.53846931) );
+        add( m*0.47862867*f_test(c + m*0.53846931) );
 
-        integrale += m*0.23692689*f_test(c - m*0.90617985);
-        integrale += m*0.23692689*f_test(c + m*0.90617985);
+        add( m*0.23692689*f_test(c - m*0.90617985) );
+        add( m*0.23692689*f_test(c + m*0.90617985) );
     }
 
-    return integrale;
-}
-
-void IntegraleDeterministico::setIntervalli(int intervalli)
-{
-    m_intervalli = intervalli;
-    m_l = (m_b-m_a)/m_intervalli; // Larghezza dell'intervallo
-}
-
-double IntegraleDeterministico::x_i(int i)
-{
-    return (m_a + m_l*i);
+    return getIntegral();
 }
