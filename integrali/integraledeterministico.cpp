@@ -34,29 +34,37 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
 {
     setIntervalli(10);
 
-    std::cout << "L'integrale della funzione con il metodo dei trapezi e'" << std::endl;
-    std::cout << trapezi() << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "L'integrale della funzione con il metodo di Simpson e'" << std::endl;
-    std::cout << simpson() << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "L'integrale della funzione con il metodo delle quadrature gaussiane e'" << std::endl;
-    std::cout << gauss() << std::endl;
-    std::cout << std::endl;
+//     std::cout << "L'integrale della funzione con il metodo dei trapezi e'" << std::endl;
+//     std::cout << trapezi() << std::endl;
+//     std::cout << std::endl;
+//
+//     std::cout << "L'integrale della funzione con il metodo di Simpson e'" << std::endl;
+//     std::cout << simpson() << std::endl;
+//     std::cout << std::endl;
+//
+//     std::cout << "L'integrale della funzione con il metodo delle quadrature gaussiane e'" << std::endl;
+//     std::cout << gauss() << std::endl;
+//     std::cout << std::endl;
 
 
     std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 
-    real f = 417.807768355023633511502961684704278519926198253819;
+//  real f = 417.8077683550236335115029616847558823314866942; // VERO VALORE
+    real f;
+    f.assign("417.8077683550236335115029616847558823314866942");
 
     // Statistica
-    for (int i = 100; i <= pow(10, 4); i+= 10) {
+    for (int i = 2; i <= pow(10, 6); i+=100*log(i)) {
         setIntervalli(i);
+
+//         real gaus = gauss();
+//         real deltag = f-gauss();
+
         std::cout << "[" << i << ", " << abs(trapezi()-f) << ", " << abs(simpson()-f) << ", " <<
-                    abs(gauss()-f) << "]," << std::endl;
-//         std::cout << simpson() << std::endl;
+                    abs(f-gauss()) << "]," << std::endl;
+//         std::cout << gauss() << std::endl;
+//         std::cout << f << " - " << gaus << std::endl;
+//         std::cout << f-gaus << std::endl;
     }
 
 }
@@ -92,10 +100,11 @@ real IntegraleDeterministico::gauss()
     real omega23 = ((322+13*sqrt((real)70))/900);
     real omega45 = ((322-13*sqrt((real)70))/900);
 
-    real xi23 = (((real)1)/3)*sqrt(5-2*sqrt(((real)10)/7));
-    real xi45 = (((real)1)/3)*sqrt(5+2*sqrt(((real)10)/7));
+    real xi23 = ( ((real)1) /3)*sqrt(5-2*sqrt( (real)(10./7) ));
+    real xi45 = ( ((real)1) /3)*sqrt(5+2*sqrt( (real)(10./7) ));
 
-    std::cout << " 1: " << omega1 << " - 2: " << omega23 << " - 3: " << omega45 << std::endl;
+//     std::cout << xi23 << std::endl;
+//     std::cout << " 1: " << omega1 << " - 2: " << omega23 << " - 3: " << omega45 << std::endl;
 
     for (int i = 0; i < intervalli(); i++) {
 
@@ -103,11 +112,6 @@ real IntegraleDeterministico::gauss()
         real m = (x_i(i+1)-x_i(i))/2.;
 
         // http://mathworld.wolfram.com/Legendre-GaussQuadrature.html
-        //
-        // roots    weights
-        // 0.0   0.56888889
-        // +-0.53846931 0.47862867
-        // +-0.90617985 0.23692689
 
 
         add( m*omega1*f_test(c) ); // root = 0
