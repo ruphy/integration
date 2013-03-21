@@ -49,7 +49,7 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
 
     std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 
-    real f = 417.80776835502343637108613;
+    real f = 417.807768355023633511502961684704278519926198253819;
 
     // Statistica
     for (int i = 100; i <= pow(10, 4); i+= 10) {
@@ -92,8 +92,8 @@ real IntegraleDeterministico::gauss()
     real omega23 = ((322+13*sqrt((real)70))/900);
     real omega45 = ((322-13*sqrt((real)70))/900);
 
-    real xi23 = (1./3)*sqrt(5-2*sqrt((real)10./7));
-    real xi45 = (1./3)*sqrt(5+2*sqrt((real)10./7));
+    real xi23 = (((real)1)/3)*sqrt(5-2*sqrt(((real)10)/7));
+    real xi45 = (((real)1)/3)*sqrt(5+2*sqrt(((real)10)/7));
 
     std::cout << " 1: " << omega1 << " - 2: " << omega23 << " - 3: " << omega45 << std::endl;
 
