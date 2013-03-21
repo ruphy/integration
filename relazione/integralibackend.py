@@ -6,8 +6,8 @@ class IntegraliBackend:
   def __init__(self, titolo, legenda1='lower left', legenda2='lower right'):
     self.disegna1(legenda1)
     plt.savefig("images/integrali/integrali"+titolo+".png")
-    self.disegna2(legenda2)
-    plt.savefig("images/integrali/integrali-intervalli"+titolo+".png")
+    #self.disegna2(legenda2)
+    #plt.savefig("images/integrali/integrali-intervalli"+titolo+".png")
   
   def disegna1(self, legendt='lower left'):
     plt.clf()
