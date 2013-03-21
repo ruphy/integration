@@ -27,12 +27,12 @@
 #include <boost/random/uniform_real_distribution.hpp>
 #include <boost/random/mersenne_twister.hpp>
 
-double f_mc(double x)
+real f_mc(real x)
 {
     return (exp(x) + 1 + pow(x, 9) - 8 * pow(x, 8) + sinh(5 * x)) * exp(-pow(x, 2));
 }
 
-IntegraleMC::IntegraleMC(double a, double b)
+IntegraleMC::IntegraleMC(real a, real b)
     : IntegraleBase(a, b)
 {
     // "Mersenne Twister: A 623-dimensionally equidistributed uniform pseudo-random
@@ -44,7 +44,7 @@ IntegraleMC::IntegraleMC(double a, double b)
     // Statistica
 //     for (int i = 100; i < pow(10, 8); i += 100) {
 //         m_n = i;
-//         std::cout.precision(std::numeric_limits<double>::digits10 + 1);
+//         std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 //         std::cout << "[" <<  i << ", " << run() - 417.8077704440582 << "]," << std::endl;
 //     }
 
@@ -56,21 +56,21 @@ IntegraleMC::IntegraleMC(double a, double b)
 
 void IntegraleMC::statRun()
 {
-    boost::random::uniform_real_distribution<double> dist(0, 1);
+    boost::random::uniform_real_distribution<real> dist(0, 1);
 
-    double intMean = 0;
-    double intErr = 0;
+    real intMean = 0;
+    real intErr = 0;
     unsigned int jmax = 30;
 
     // 30 integrazioni per ogni n, valutiamo poi la media e la dev std,
     // così da avere risultati più stabili
     for (int j = 0; j < jmax; j++) {
-        double mean = 0;
-        double stddev = 0;
-        double sigmaI = 0;
+        real mean = 0;
+        real stddev = 0;
+        real sigmaI = 0;
 
         for (int i = 0; i < m_n; i++) {
-            double fxi = f_mc(m_a + (m_b - m_a) * dist(*m_gen)) * (m_b - m_a);
+            real fxi = f_mc(m_a + (m_b - m_a) * dist(*m_gen)) * (m_b - m_a);
             add(fxi);
 
             // Errori di arrotondamento nel calcolo dell'incertezza sono trascurabili
@@ -90,14 +90,14 @@ void IntegraleMC::statRun()
     intErr = sqrt(intErr)/jmax;
     intMean = intMean/jmax;
 
-    std::cout.precision(std::numeric_limits<double>::digits10 + 1);
+    std::cout.precision(std::numeric_limits<real>::digits10 + 1);
     std::cout << "[" <<  m_n << "," << intMean << "," << intErr << "]," << std::endl;
 
 }
 
-double IntegraleMC::run()
+real IntegraleMC::run()
 {
-    boost::random::uniform_real_distribution<double> dist(0, 1);
+    boost::random::uniform_real_distribution<real> dist(0, 1);
 
     for (int i = 0; i < m_n; i++) {
         add(f_mc(m_a + (m_b - m_a) * dist(*m_gen)) * (m_b - m_a));

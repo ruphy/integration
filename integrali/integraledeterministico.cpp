@@ -50,9 +50,10 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
     std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 
     // Statistica
-    for (int i = 0; i <= 100000; i++) {
+    for (int i = 100000; i <= 1000000; i+=10000) {
         setIntervalli(i);
-        std::cout << "[" << i << ", " << trapezi() << ", " << simpson() << ", " << gauss() << "]," << std::endl;
+//         std::cout << "[" << i << ", " << trapezi() << ", " << simpson() << ", " << gauss() << "]," << std::endl;
+        std::cout << gauss() << std::endl;
     }
 
 }

@@ -28,13 +28,13 @@ class IntegraleBase : public EsBase
 {
 
 public:
-    IntegraleBase(double a, double b);
+    IntegraleBase(real a, real b);
 
 protected:
 
     // smart add the partial results (basing on the magnitude)
-    void add(double value);
-    double getIntegral() const;
+    void add(real value);
+    real getIntegral() const;
     void resetIntegral();
 
     /**
@@ -42,32 +42,32 @@ protected:
      * x_i(0) = a
      * x_i(intervalli) = b
      */
-    double x_i(int i) const;
+    real x_i(int i) const;
 
     /**
      * Imposta il numero di intervalli in cui suddividere la funzione
      * prima di integrarla.
      */
     void setIntervalli(int intervalli);
-    double intervalli() const;
+    real intervalli() const;
 
     /**
      * Larghezza dell'intervallo in cui abbiamo spezzato la funzione
      */
-    double h() const;
+    real h() const;
 
-    const double m_a, m_b;
+    const real m_a, m_b;
 
 private:
-    // we're using double --> 11 bit for the exponent
+    // we're using real --> 11 bit for the exponent
     // this implies we can get 2046 different values
     // as exponent, let's create an array of this size.
 #define DOUBLEEXP 2045
-    double m_partialIntegral[DOUBLEEXP];
+    real m_partialIntegral[DOUBLEEXP];
 
     int m_n;
 
-    double m_l;
+    real m_l;
     int m_intervalli;
 };
 

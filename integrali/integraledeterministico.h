@@ -22,11 +22,6 @@
 #define INTEGRALEDETERMINISTICO_H
 #include "integralebase.h"
 
-// #include <boost/multiprecision/gmp.hpp>
-
-typedef double real;
-
-
 class IntegraleDeterministico : public IntegraleBase
 {
 public:

@@ -8,6 +8,6 @@ INCLUDE_DIRECTORIES("${Boost_INCLUDE_DIRS}" ${CMAKE_SOURCE_DIR})
 add_executable(integration main.cpp serie.cpp integrali/integralebase.cpp
 integrali/integraledeterministico.cpp integrali/integralemc.cpp)
 
-target_link_libraries(integration  ${Boost_LIBRARIES})
+target_link_libraries(integration ${Boost_LIBRARIES} gmp)
 
 install(TARGETS integration RUNTIME DESTINATION bin)

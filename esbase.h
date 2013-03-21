@@ -21,6 +21,11 @@
 #ifndef ESBASE_H
 #define ESBASE_H
 
+#include <boost/multiprecision/gmp.hpp>
+
+// typedef double real;
+typedef boost::multiprecision::mpf_float_50 real;
+
 class EsBase
 {
 // public:

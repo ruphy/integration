@@ -21,7 +21,7 @@
 #include "integralebase.h"
 #include <math.h>
 
-IntegraleBase::IntegraleBase(double a, double b)
+IntegraleBase::IntegraleBase(real a, real b)
     : m_a(a),
       m_b(b)
 {
@@ -36,19 +36,19 @@ void IntegraleBase::resetIntegral()
     }
 }
 
-void IntegraleBase::add(double value)
+void IntegraleBase::add(real value)
 {
     int i;
     //extracting the exponent
-    double result = frexp(value , &i);
+    real result = frexp(value , &i);
 
     // let's ensure we sum with same orders of magnitude
     m_partialIntegral[i + 1022] += value;
 }
 
-double IntegraleBase::getIntegral() const
+real IntegraleBase::getIntegral() const
 {
-    double integral;
+    real integral;
     for (int i = 0; i < DOUBLEEXP; i++) {
         integral += m_partialIntegral[i];
     }
@@ -62,17 +62,17 @@ void IntegraleBase::setIntervalli(int intervalli)
     m_l = (m_b-m_a)/m_intervalli; // Larghezza dell'intervallo
 }
 
-double IntegraleBase::x_i(int i) const
+real IntegraleBase::x_i(int i) const
 {
     return (m_a + m_l*i);
 }
 
-double IntegraleBase::h() const
+real IntegraleBase::h() const
 {
     return m_l;
 }
 
-double IntegraleBase::intervalli() const
+real IntegraleBase::intervalli() const
 {
     return m_intervalli;
 }

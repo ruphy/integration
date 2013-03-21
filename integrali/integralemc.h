@@ -28,10 +28,10 @@ class IntegraleMC : public IntegraleBase
 {
 
 public:
-    IntegraleMC(double a, double b);
+    IntegraleMC(real a, real b);
 //     ~IntegraleMC();
 private:
-    double run();
+    real run();
     void statRun();
 
     boost::random::mt19937* m_gen;
