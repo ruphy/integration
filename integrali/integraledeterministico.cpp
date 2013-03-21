@@ -49,11 +49,14 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
 
     std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 
+    real f = 417.80776835502343637108613;
+
     // Statistica
-    for (int i = 100000; i <= 1000000; i+=10000) {
+    for (int i = 100; i <= pow(10, 4); i+= 10) {
         setIntervalli(i);
-//         std::cout << "[" << i << ", " << trapezi() << ", " << simpson() << ", " << gauss() << "]," << std::endl;
-        std::cout << gauss() << std::endl;
+        std::cout << "[" << i << ", " << abs(trapezi()-f) << ", " << abs(simpson()-f) << ", " <<
+                    abs(gauss()-f) << "]," << std::endl;
+//         std::cout << simpson() << std::endl;
     }
 
 }
@@ -84,6 +87,16 @@ real IntegraleDeterministico::gauss()
 {
     resetIntegral();
 
+
+    real omega1 = ((real)128.)/225;
+    real omega23 = ((322+13*sqrt((real)70))/900);
+    real omega45 = ((322-13*sqrt((real)70))/900);
+
+    real xi23 = (1./3)*sqrt(5-2*sqrt((real)10./7));
+    real xi45 = (1./3)*sqrt(5+2*sqrt((real)10./7));
+
+    std::cout << " 1: " << omega1 << " - 2: " << omega23 << " - 3: " << omega45 << std::endl;
+
     for (int i = 0; i < intervalli(); i++) {
 
         real c = (x_i(i+1)+x_i(i))/2.;
@@ -96,13 +109,14 @@ real IntegraleDeterministico::gauss()
         // +-0.53846931 0.47862867
         // +-0.90617985 0.23692689
 
-        add( m*0.568888888888889*f_test(c) ); // root = 0
 
-        add( m*0.478628670499366*f_test(c - m*0.538469310105683) );
-        add( m*0.478628670499366*f_test(c + m*0.538469310105683) );
+        add( m*omega1*f_test(c) ); // root = 0
 
-        add( m*0.236926885056189*f_test(c - m*0.906179845938664) );
-        add( m*0.236926885056189*f_test(c + m*0.906179845938664) );
+        add( m*omega23*f_test(c - m*xi23) );
+        add( m*omega23*f_test(c + m*xi23) );
+
+        add( m*omega45*f_test(c - m*xi45) );
+        add( m*omega45*f_test(c + m*xi45) );
     }
 
     return getIntegral();
