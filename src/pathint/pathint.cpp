@@ -27,7 +27,7 @@ PathInt::PathInt()
 {
     setExecType(EsBase::Linear);
     setMaxIterations(1000); // 1000 sweeps
-    setMaxIterations(1);
+    setMinIterations(1);
 
     m_A = 1;
     m_M = 1;
@@ -53,12 +53,40 @@ void PathInt::reset()
 
 void PathInt::exec(int sweepN)
 {
-    boost::random::uniform_real_distribution<real> dist(0, 1);
-
+    // sweep
+    for (int i = 0; i < N; i++) { // for every element in x...
+        changeState(i);
+    }
     for (int i = 0; i < N; i++) {
-        real xin = m_x[i] + m_Del*dist(*m_gen);
-        m_x[i] = 0;
-        m_xN[i] = 0;
+        m_x[i] = m_xN[i];
+//         print(sweepN, m_x[i]);
     }
 
 }
+
+void PathInt::changeState(int i)
+{
+    boost::random::uniform_real_distribution<real> dist(0, 1);
+
+    real xin = m_x[i] + m_Del*dist(*m_gen);
+
+    bool accept;
+
+    if (i == 0) {
+        accept = acceptState(m_x[N-1], m_x[i], m_x[i+1], xin);
+    } else if (i == N-1) {
+        accept = acceptState(m_x[i-1], m_x[i], m_x[0], xin);
+    } else {
+        accept = acceptState(m_x[i-1], m_x[i], m_x[i+1], xin);
+//         debug( deltaS(m_x[i-1], m_x[i], m_x[i+1], xin));
+    }
+
+    if (accept) {
+        m_xN[i] = xin;
+    } else {
+//         m_xN[i] = m_x[i]; // this should be unneeded.
+    }
+}
+
+
+

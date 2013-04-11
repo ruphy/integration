@@ -23,6 +23,8 @@
 
 #include "../esbase.h"
 #include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_real_distribution.hpp>
+#include <boost/math/constants/constants.hpp>
 
 #define N 64
 
@@ -35,10 +37,13 @@ protected:
     virtual void exec(int sweepN);
 
 private:
-    inline real deltaS(real xmin, real xi, real xplus, real p);
+    inline real deltaS(real xmin, real xi, real xplus, real b);
+    inline bool acceptState(real xmin, real xi, real xplus, real b);
 
     void reset();
     void sweep();
+
+    void changeState(int i);
 
     real m_x[N];
     real m_xN[N];
@@ -46,6 +51,17 @@ private:
     real m_M, m_W, m_A, m_Del;
     boost::random::mt19937* m_gen;
 };
+
+bool PathInt::acceptState(real xmin, real xi, real xplus, real b)
+{
+    real DS = pow(boost::math::constants::e<float>(), deltaS(xmin, xi, xplus, b));
+    if (DS >= 1) {
+        return true;
+    } else {
+        boost::random::uniform_real_distribution<real> dist(0, 1);
+        return DS > dist(*m_gen);
+    }
+}
 
 real PathInt::deltaS(real xmin, real xi, real xplus, real b)
 {

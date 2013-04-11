@@ -6,6 +6,7 @@
 #include "src/integrali/integralemc.h"
 #include "src/integrali/integraledeterministico.h"
 #include "src/agobuffon.h"
+#include "src/pathint/pathint.h"
 
 class Esercizi {
 public:
@@ -13,7 +14,9 @@ public:
         EsSerie,
         IntDeterm,
         IntMontecarlo,
-        AgoBuffonTipo
+        AgoBuffonTipo,
+        PathIntegral
+
     };
 
     void run(Esercizio tipo);
@@ -35,6 +38,9 @@ void Esercizi::run(Esercizi::Esercizio tipo)
         case AgoBuffonTipo:
             es = new AgoBuffon;
             break;
+        case PathIntegral:
+            es = new PathInt;
+            break;
         default:
             std::cout << "Esercizio non ancora implementato" << std::endl;
     }
@@ -46,7 +52,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::EsSerie);
+    es.run(Esercizi::PathIntegral);
 
     return 0;
 }
