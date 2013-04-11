@@ -23,14 +23,32 @@
 
 #include "../esbase.h"
 
+#define N 64
+
 class PathInt : public EsBase
 {
+public:
+    PathInt();
 
 protected:
     virtual void exec(int iterations);
+private:
+    inline real deltaS(real xmin, real xi, real xplus, real p);
 
-public:
-    PathInt();
+    void reset();
+
+    real m_x[N];
+    real m_xN[N];
+
+    real m_M, m_W, m_A, m_Del;
 };
+
+real PathInt::deltaS(real xmin, real xi, real xplus, real b)
+{
+    real U = m_M*pow(m_W, 2)*(pow(b,2) - pow(xi, 2))/2;
+    real Tb = pow((b-xmin)/a, 2) + pow((b-xplus)/a, 2);
+    real Ta = pow((xplus-xi)/a, 2) + pow((xmin-xi)/a, 2);
+    return -m_A*(U)-a*m*(Tb-Ta)/2;
+}
 
 #endif // PATHINT_H

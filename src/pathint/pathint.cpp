@@ -27,6 +27,18 @@ void PathInt::exec(int iterations)
 
 PathInt::PathInt()
 {
+    m_A = 1;
+    m_M = 1;
+    m_W = 1;
+    m_Del = 3;
 
+    reset();
 }
 
+void PathInt::reset()
+{
+    for (int i = 0; i < N; i++) {
+        m_x[i] = 0;
+        m_xN[i] = 0;
+    }
+}
