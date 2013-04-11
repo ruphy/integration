@@ -26,7 +26,7 @@
 #include <boost/random/uniform_real_distribution.hpp>
 #include <boost/math/constants/constants.hpp>
 
-#define N 64
+#define N 256
 
 class PathInt : public EsBase
 {
@@ -39,6 +39,8 @@ protected:
 private:
     inline real deltaS(real xmin, real xi, real xplus, real b);
     inline bool acceptState(real xmin, real xi, real xplus, real b);
+
+    real S();
 
     void reset();
     void sweep();

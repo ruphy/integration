@@ -59,14 +59,24 @@ void PathInt::exec(int sweepN)
     }
     for (int i = 0; i < N; i++) {
         m_x[i] = m_xN[i];
-//         print(sweepN, m_x[i]);
     }
 
+    print(sweepN, S());
+}
+
+real PathInt::S()
+{
+    real tempS = 0;
+    for (int i = 0; i < N-1; i++) {
+        tempS += m_M*pow((m_x[i+1]-m_x[i]), 2)/2 + m_A*(m_M*pow(m_W, 2)*pow(m_x[i], 2)/2);
+    }
+    tempS += m_M*pow((m_x[0]-m_x[N-1]), 2)/2 + m_A*(m_M*pow(m_W, 2)*pow(m_x[N-1], 2))/2;
+    return tempS;
 }
 
 void PathInt::changeState(int i)
 {
-    boost::random::uniform_real_distribution<real> dist(0, 1);
+    boost::random::uniform_real_distribution<real> dist(-1, 1);
 
     real xin = m_x[i] + m_Del*dist(*m_gen);
 
