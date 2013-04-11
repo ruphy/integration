@@ -46,9 +46,16 @@ protected:
     void setIterations(int min, int max);
 
     virtual void exec(int iterations) = 0;
+    void setExecType(ExecType);
+
+    enum ExecType {
+        Linear,
+        Quadratic
+    };
 private:
     int m_minIterations;
     int m_maxIterations;
+    ExecType m_execType;
 };
 
 

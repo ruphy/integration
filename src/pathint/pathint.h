@@ -32,10 +32,12 @@ public:
 
 protected:
     virtual void exec(int iterations);
+    
 private:
     inline real deltaS(real xmin, real xi, real xplus, real p);
 
     void reset();
+    void sweep();
 
     real m_x[N];
     real m_xN[N];

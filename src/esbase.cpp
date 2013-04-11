@@ -25,16 +25,28 @@ EsBase::EsBase()
 {
     m_minIterations = 0;
     m_maxIterations = 0;
+    m_execType = EsBase::Quadratic;
 
     std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 }
 
 void EsBase::statRun()
 {
-    int sqrtMax = sqrt(m_maxIterations);
-    for (int i = sqrt(m_minIterations); i <= sqrtMax; i++) {
-        exec(pow(i, 2));
+    if (m_execType == Quadratic) {
+        int sqrtMax = sqrt(m_maxIterations);
+        for (int i = sqrt(m_minIterations); i <= sqrtMax; i++) {
+            exec(pow(i, 2));
+        }
+    } else if (m_execType == Linear) {
+        for (int i = m_minIterations; i <= m_maxIterations; i++) {
+            exec(i);
+        }
     }
+}
+
+void EsBase::setExecType(EsBase::ExecType exType)
+{
+    m_execType = exType;
 }
 
 void EsBase::setIterations(int min, int max)
