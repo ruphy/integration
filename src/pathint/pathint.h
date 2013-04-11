@@ -31,8 +31,8 @@ public:
     PathInt();
 
 protected:
-    virtual void exec(int iterations);
-    
+    virtual void exec(int sweepN);
+
 private:
     inline real deltaS(real xmin, real xi, real xplus, real p);
 

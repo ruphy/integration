@@ -20,13 +20,17 @@
 
 #include "pathint.h"
 
-void PathInt::exec(int iterations)
+void PathInt::exec(int sweepN)
 {
 
 }
 
 PathInt::PathInt()
 {
+    setExecType(EsBase::Linear);
+    setMaxIterations(1000); // 1000 sweeps
+    setMaxIterations(1);
+
     m_A = 1;
     m_M = 1;
     m_W = 1;
