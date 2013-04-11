@@ -33,6 +33,10 @@ public:
     EsBase();
     void statRun();
 
+    enum ExecType {
+        Linear,
+        Quadratic
+    };
 protected:
     void debug(real number);
 
@@ -46,12 +50,8 @@ protected:
     void setIterations(int min, int max);
 
     virtual void exec(int iterations) = 0;
-    void setExecType(ExecType);
+    void setExecType(EsBase::ExecType execType);
 
-    enum ExecType {
-        Linear,
-        Quadratic
-    };
 private:
     int m_minIterations;
     int m_maxIterations;

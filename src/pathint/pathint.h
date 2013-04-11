@@ -22,6 +22,7 @@
 #define PATHINT_H
 
 #include "../esbase.h"
+#include <boost/random/mersenne_twister.hpp>
 
 #define N 64
 
@@ -43,14 +44,15 @@ private:
     real m_xN[N];
 
     real m_M, m_W, m_A, m_Del;
+    boost::random::mt19937* m_gen;
 };
 
 real PathInt::deltaS(real xmin, real xi, real xplus, real b)
 {
     real U = m_M*pow(m_W, 2)*(pow(b,2) - pow(xi, 2))/2;
-    real Tb = pow((b-xmin)/a, 2) + pow((b-xplus)/a, 2);
-    real Ta = pow((xplus-xi)/a, 2) + pow((xmin-xi)/a, 2);
-    return -m_A*(U)-a*m*(Tb-Ta)/2;
+    real Tb = pow((b-xmin)/m_A, 2) + pow((b-xplus)/m_A, 2);
+    real Ta = pow((xplus-xi)/m_A, 2) + pow((xmin-xi)/m_A, 2);
+    return -m_A*(U)-m_A*m_M*(Tb-Ta)/2;
 }
 
 #endif // PATHINT_H

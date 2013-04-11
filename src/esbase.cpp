@@ -44,9 +44,9 @@ void EsBase::statRun()
     }
 }
 
-void EsBase::setExecType(EsBase::ExecType exType)
+void EsBase::setExecType(EsBase::ExecType execType)
 {
-    m_execType = exType;
+    m_execType = execType;
 }
 
 void EsBase::setIterations(int min, int max)

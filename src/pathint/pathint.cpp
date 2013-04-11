@@ -20,10 +20,8 @@
 
 #include "pathint.h"
 
-void PathInt::exec(int sweepN)
-{
-
-}
+#include <boost/random/uniform_real_distribution.hpp>
+#include <boost/random/mersenne_twister.hpp>
 
 PathInt::PathInt()
 {
@@ -37,6 +35,12 @@ PathInt::PathInt()
     m_Del = 3;
 
     reset();
+
+    // "Mersenne Twister: A 623-dimensionally equidistributed uniform pseudo-random
+    // number generator", Makoto Matsumoto and Takuji Nishimura, ACM Transactions
+    // on Modeling and Computer Simulation: Special Issue on Uniform Random Number
+    // Generation, Vol. 8, No. 1, January 1998, pp. 3-30.
+    m_gen = new boost::random::mt19937(time(0) + getpid());
 }
 
 void PathInt::reset()
@@ -45,4 +49,16 @@ void PathInt::reset()
         m_x[i] = 0;
         m_xN[i] = 0;
     }
+}
+
+void PathInt::exec(int sweepN)
+{
+    boost::random::uniform_real_distribution<real> dist(0, 1);
+
+    for (int i = 0; i < N; i++) {
+        real xin = m_x[i] + m_Del*dist(*m_gen);
+        m_x[i] = 0;
+        m_xN[i] = 0;
+    }
+
 }
