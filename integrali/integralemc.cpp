@@ -41,13 +41,6 @@ IntegraleMC::IntegraleMC(real a, real b)
     // Generation, Vol. 8, No. 1, January 1998, pp. 3-30.
     m_gen = new boost::random::mt19937(time(0) + getpid());
 
-    // Statistica
-//     for (int i = 100; i < pow(10, 8); i += 100) {
-//         m_n = i;
-//         std::cout.precision(std::numeric_limits<real>::digits10 + 1);
-//         std::cout << "[" <<  i << ", " << run() - 417.8077704440582 << "]," << std::endl;
-//     }
-
     for (int i = 1000; i < pow(10, 8); i += 1000*log(i/2)) {
         m_n = i;
         statRun();

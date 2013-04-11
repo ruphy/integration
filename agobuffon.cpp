@@ -20,8 +20,47 @@
 
 #include "agobuffon.h"
 
+#include <iostream>
+
+#include <boost/math/constants/constants.hpp>
+
 AgoBuffon::AgoBuffon()
 {
+    m_gen = new boost::random::mt19937(time(0) + getpid());
 
+    for (int i = 1000; i < 10000; i += 1000) {
+        run(pow(i, 2), 1);
+    }
+}
+
+void AgoBuffon::run(int n, float L)
+{
+    boost::random::uniform_real_distribution<float> distx(0, boost::math::constants::pi<float>());
+    boost::random::uniform_real_distribution<float> disty(0, 1);
+
+    m_L = L;
+
+    float picalc;
+    unsigned long int tempcalc = 0;
+
+    for (int i = 0; i < n; i++) {
+        float x = distx(*m_gen);
+        float y = disty(*m_gen);
+        tempcalc += tocco(x, y);
+    }
+
+    debug(n);
+    picalc = 2*m_L*n/(float)tempcalc;
+    std::cout << picalc << std::endl;
+}
+
+inline
+unsigned int AgoBuffon::tocco(float x, float y)
+{
+    if (y < sin(x)*m_L/2 or y > 1-sin(x)*m_L/2) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 

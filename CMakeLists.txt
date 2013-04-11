@@ -6,7 +6,8 @@ find_package(Boost)
 INCLUDE_DIRECTORIES("${Boost_INCLUDE_DIRS}" ${CMAKE_SOURCE_DIR})
 
 add_executable(integration main.cpp serie.cpp integrali/integralebase.cpp
-integrali/integraledeterministico.cpp integrali/integralemc.cpp)
+integrali/integraledeterministico.cpp integrali/integralemc.cpp agobuffon.cpp
+esbase.cpp)
 
 target_link_libraries(integration ${Boost_LIBRARIES} gmp)
 

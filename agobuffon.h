@@ -22,13 +22,20 @@
 #define AGOBUFFON_H
 
 #include <esbase.h>
-
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_real_distribution.hpp>
 
 class AgoBuffon : public EsBase
 {
-
 public:
     AgoBuffon();
+
+private:
+    void run(int n, float L);
+    unsigned int tocco(float x, float y);
+
+    boost::random::mt19937* m_gen;
+    float m_L;
 };
 
 #endif // AGOBUFFON_H

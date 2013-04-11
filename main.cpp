@@ -5,6 +5,7 @@
 #include "esbase.h"
 #include "integrali/integralemc.h"
 #include "integrali/integraledeterministico.h"
+#include "agobuffon.h"
 
 class Esercizi {
 public:
@@ -12,7 +13,7 @@ public:
         EsSerie,
         IntDeterm,
         IntMontecarlo,
-        AgoBuffon
+        AgoBuffonTipo
     };
 
     void run(Esercizio tipo);
@@ -31,8 +32,8 @@ void Esercizi::run(Esercizi::Esercizio tipo)
         case IntMontecarlo:
             es = new IntegraleMC(1, 10);
             return;
-        case AgoBuffon:
-            es;
+        case AgoBuffonTipo:
+            es = new AgoBuffon;
             return;
         default:
             std::cout << "Esercizio non ancora implementato" << std::endl;
@@ -44,7 +45,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::IntDeterm);
+    es.run(Esercizi::AgoBuffonTipo);
 
     return 0;
 }

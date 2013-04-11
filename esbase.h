@@ -22,14 +22,49 @@
 #define ESBASE_H
 
 #include <boost/multiprecision/gmp.hpp>
+#include <iostream>
 
 // typedef double real;
 typedef boost::multiprecision::mpf_float_50 real;
 
 class EsBase
 {
-// public:
-//     virtual void run() = 0;
+public:
+    EsBase();
+
+protected:
+    void debug(real number);
+
+    void print(real number);
+    void print(real number, real number2);
+    void print(real number, real number2, real number3);
+    void print(real number, real number2, real number3, real number4);
 };
+
+
+inline void EsBase::debug(real number)
+{
+    std::cout << "DEBUG: " << number << std::endl;
+}
+
+inline void EsBase::print(real number)
+{
+    std::cout << number << std::endl;
+}
+
+inline void EsBase::print(real number, real number2)
+{
+    std::cout << number << ',' << number2 << std::endl;
+}
+
+inline void EsBase::print(real number, real number2, real number3)
+{
+    std::cout << number << ',' << number2 << ',' << number3 << std::endl;
+}
+
+inline void EsBase::print(real number, real number2, real number3, real number4)
+{
+    std::cout << number << ',' << number2 << ',' << number3 << ',' << number4 << std::endl;
+}
 
 #endif // ESBASE_H
