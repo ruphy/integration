@@ -26,7 +26,7 @@
 PathInt::PathInt()
 {
     setExecType(EsBase::Linear);
-    setMaxIterations(1000); // 1000 sweeps
+    setMaxIterations(200); // 1000 sweeps
     setMinIterations(1);
 
     m_A = 1;

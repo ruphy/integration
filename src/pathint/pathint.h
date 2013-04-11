@@ -26,7 +26,7 @@
 #include <boost/random/uniform_real_distribution.hpp>
 #include <boost/math/constants/constants.hpp>
 
-#define N 256
+#define N 64
 
 class PathInt : public EsBase
 {
