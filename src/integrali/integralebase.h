@@ -21,7 +21,7 @@
 #ifndef INTEGRALEBASE_H
 #define INTEGRALEBASE_H
 
-#include "esbase.h"
+#include "../esbase.h"
 
 
 class IntegraleBase : public EsBase

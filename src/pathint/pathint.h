@@ -1,6 +1,6 @@
 /*
     <one line to give the library's name and an idea of what it does.>
-    Copyright (C) 2013  Riccardo Iaconelli <email>
+    Copyright (C) 2013  Riccardo Iaconelli <riccardo@kde.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -18,27 +18,19 @@
 */
 
 
-#ifndef AGOBUFFON_H
-#define AGOBUFFON_H
+#ifndef PATHINT_H
+#define PATHINT_H
 
-#include "esbase.h"
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_real_distribution.hpp>
+#include "../esbase.h"
 
-class AgoBuffon : public EsBase
+class PathInt : public EsBase
 {
-public:
-    AgoBuffon();
-    
+
 protected:
-    virtual void exec(int n) {};
+    virtual void exec(int iterations);
 
-private:
-    void run(int n, float L);
-    unsigned int tocco(float x, float y);
-
-    boost::random::mt19937* m_gen;
-    float m_L;
+public:
+    PathInt();
 };
 
-#endif // AGOBUFFON_H
+#endif // PATHINT_H
