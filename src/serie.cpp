@@ -18,22 +18,43 @@
 */
 
 
-#ifndef SERIE_H
-#define SERIE_H
-#include "esbase.h"
+#include "serie.h"
+#include <iostream>
+#include <math.h>
+#include <iomanip>
+#include <limits>
+#include <string>
+// #include <lexical_cast>
 
-class Serie : public EsBase
+// using namespace std;
+
+Serie::Serie()
 {
-public:
-    Serie();
-    
-protected:
-    virtual void exec(int n) {};
+    setIterations(1, pow(10, 9)); // fake - we really don't have any dependency on iterations
+}
 
-private:
-    void run();
-    float sommaCrescente(int N);
-    float sommaDecrescente(int N);
-};
+#define EXPECTED 1.64493406685
+void Serie::exec(int n)
+{
+    float somma1 = sommaCrescente(n);
+    float somma2 = sommaDecrescente(n);
+    print(n, somma1, somma2);
+}
 
-#endif // SERIE_H
+float Serie::sommaCrescente(int N)
+{
+    float somma = 0;
+    for (int i = 1; i <= N; i++) {
+        somma += 1./pow(i, 2);
+    }
+    return somma;
+}
+
+float Serie::sommaDecrescente(int N)
+{
+    float somma = 0;
+    for (int i = N; i >= 1; i--) {
+        somma += 1./pow(i, 2);
+    }
+    return somma;
+}

@@ -1,11 +1,11 @@
 
 #include <iostream>
 
-#include "serie.h"
-#include "esbase.h"
-#include "integrali/integralemc.h"
-#include "integrali/integraledeterministico.h"
-#include "agobuffon.h"
+#include "src/serie.h"
+#include "src/esbase.h"
+#include "src/integrali/integralemc.h"
+#include "src/integrali/integraledeterministico.h"
+#include "src/agobuffon.h"
 
 class Esercizi {
 public:
@@ -46,7 +46,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::IntMontecarlo);
+    es.run(Esercizi::EsSerie);
 
     return 0;
 }
