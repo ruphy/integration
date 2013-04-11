@@ -36,16 +36,6 @@ void IntegraleBase::resetIntegral()
     }
 }
 
-void IntegraleBase::add(real value)
-{
-    int i;
-    //extracting the exponent
-    real result = frexp(value , &i);
-
-    // let's ensure we sum with same orders of magnitude
-    m_partialIntegral[i + 1022] += value;
-}
-
 real IntegraleBase::getIntegral() const
 {
     real integral;
@@ -60,16 +50,6 @@ void IntegraleBase::setIntervalli(int intervalli)
 {
     m_intervalli = intervalli;
     m_l = (m_b-m_a)/m_intervalli; // Larghezza dell'intervallo
-}
-
-real IntegraleBase::x_i(int i) const
-{
-    return (m_a + m_l*i);
-}
-
-real IntegraleBase::h() const
-{
-    return m_l;
 }
 
 real IntegraleBase::intervalli() const

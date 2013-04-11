@@ -27,6 +27,8 @@ class IntegraleDeterministico : public IntegraleBase
 public:
     IntegraleDeterministico(int a, int b);
 
+protected:
+    virtual void exec(int n) {};
 
 private:
     real trapezi();

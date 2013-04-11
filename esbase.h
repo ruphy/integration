@@ -31,6 +31,7 @@ class EsBase
 {
 public:
     EsBase();
+    void statRun();
 
 protected:
     void debug(real number);
@@ -39,6 +40,15 @@ protected:
     void print(real number, real number2);
     void print(real number, real number2, real number3);
     void print(real number, real number2, real number3, real number4);
+
+    void setMinIterations(int min);
+    void setMaxIterations(int max);
+    void setIterations(int min, int max);
+
+    virtual void exec(int iterations) = 0;
+private:
+    int m_minIterations;
+    int m_maxIterations;
 };
 
 

@@ -25,27 +25,28 @@ void Esercizi::run(Esercizi::Esercizio tipo)
     switch (tipo) {
         case EsSerie:
             es = new Serie;
-            return;
+            break;
         case IntDeterm:
             es = new IntegraleDeterministico(1, 10);
-            return;
+            break;
         case IntMontecarlo:
             es = new IntegraleMC(1, 10);
-            return;
+            break;
         case AgoBuffonTipo:
             es = new AgoBuffon;
-            return;
+            break;
         default:
             std::cout << "Esercizio non ancora implementato" << std::endl;
     }
 
+    es->statRun();
     delete es;
 }
 
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::AgoBuffonTipo);
+    es.run(Esercizi::IntMontecarlo);
 
     return 0;
 }

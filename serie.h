@@ -27,6 +27,9 @@ class Serie : public EsBase
 public:
     Serie();
     
+protected:
+    virtual void exec(int n) {};
+
 private:
     void run();
     float sommaCrescente(int N);

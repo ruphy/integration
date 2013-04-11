@@ -33,7 +33,7 @@ public:
 protected:
 
     // smart add the partial results (basing on the magnitude)
-    void add(real value);
+    inline void add(real value);
     real getIntegral() const;
     void resetIntegral();
 
@@ -42,7 +42,7 @@ protected:
      * x_i(0) = a
      * x_i(intervalli) = b
      */
-    real x_i(int i) const;
+    inline real x_i(int i) const;
 
     /**
      * Imposta il numero di intervalli in cui suddividere la funzione
@@ -54,7 +54,7 @@ protected:
     /**
      * Larghezza dell'intervallo in cui abbiamo spezzato la funzione
      */
-    real h() const;
+    inline real h() const;
 
     const real m_a, m_b;
 
@@ -70,5 +70,26 @@ private:
     real m_l;
     int m_intervalli;
 };
+
+
+void IntegraleBase::add(real value)
+{
+    int i;
+    //extracting the exponent
+    real result = frexp(value , &i);
+
+    // let's ensure we sum with same orders of magnitude
+    m_partialIntegral[i + 1022] += value;
+}
+
+real IntegraleBase::x_i(int i) const
+{
+    return (m_a + m_l*i);
+}
+
+real IntegraleBase::h() const
+{
+    return m_l;
+}
 
 #endif // INGTEGRALEBASE_H

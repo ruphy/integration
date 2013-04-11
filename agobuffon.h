@@ -29,6 +29,9 @@ class AgoBuffon : public EsBase
 {
 public:
     AgoBuffon();
+    
+protected:
+    virtual void exec(int n) {};
 
 private:
     void run(int n, float L);

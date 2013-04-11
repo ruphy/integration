@@ -30,6 +30,9 @@ class IntegraleMC : public IntegraleBase
 public:
     IntegraleMC(real a, real b);
 //     ~IntegraleMC();
+protected:
+    virtual void exec(int n);
+
 private:
     real run();
     void statRun();
