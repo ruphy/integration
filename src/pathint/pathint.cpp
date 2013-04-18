@@ -23,80 +23,32 @@
 #include <boost/random/uniform_real_distribution.hpp>
 #include <boost/random/mersenne_twister.hpp>
 
+#include "sweeper.h"
+
 PathInt::PathInt()
+ : m_sweeper(new Sweeper)
 {
     setExecType(EsBase::Linear);
     setMaxIterations(200); // 1000 sweeps
     setMinIterations(1);
 
-    m_A = 1;
-    m_M = 1;
-    m_W = 1;
-    m_Del = 3;
-
-    reset();
-
-    // "Mersenne Twister: A 623-dimensionally equidistributed uniform pseudo-random
-    // number generator", Makoto Matsumoto and Takuji Nishimura, ACM Transactions
-    // on Modeling and Computer Simulation: Special Issue on Uniform Random Number
-    // Generation, Vol. 8, No. 1, January 1998, pp. 3-30.
-    m_gen = new boost::random::mt19937(time(0) + getpid());
-}
-
-void PathInt::reset()
-{
-    for (int i = 0; i < N; i++) {
-        m_x[i] = 0;
-        m_xN[i] = 0;
-    }
+//     printHeader("n,S");
 }
 
 void PathInt::exec(int sweepN)
 {
-    // sweep
-    for (int i = 0; i < N; i++) { // for every element in x...
-        changeState(i);
-    }
-    for (int i = 0; i < N; i++) {
-        m_x[i] = m_xN[i];
-    }
+    m_sweeper->doSweep();
+//     print(sweepN, m_sweeper->S());
 
-    print(sweepN, S());
-}
-
-real PathInt::S()
-{
-    real tempS = 0;
-    for (int i = 0; i < N-1; i++) {
-        tempS += m_M*pow((m_x[i+1]-m_x[i]), 2)/2 + m_A*(m_M*pow(m_W, 2)*pow(m_x[i], 2)/2);
-    }
-    tempS += m_M*pow((m_x[0]-m_x[N-1]), 2)/2 + m_A*(m_M*pow(m_W, 2)*pow(m_x[N-1], 2))/2;
-    return tempS;
-}
-
-void PathInt::changeState(int i)
-{
-    boost::random::uniform_real_distribution<real> dist(-1, 1);
-
-    real xin = m_x[i] + m_Del*dist(*m_gen);
-
-    bool accept;
-
-    if (i == 0) {
-        accept = acceptState(m_x[N-1], m_x[i], m_x[i+1], xin);
-    } else if (i == N-1) {
-        accept = acceptState(m_x[i-1], m_x[i], m_x[0], xin);
-    } else {
-        accept = acceptState(m_x[i-1], m_x[i], m_x[i+1], xin);
-//         debug( deltaS(m_x[i-1], m_x[i], m_x[i+1], xin));
-    }
-
-    if (accept) {
-        m_xN[i] = xin;
-    } else {
-//         m_xN[i] = m_x[i]; // this should be unneeded.
+    if (sweepN == maxIterations()) {
+//         printHeader("j,corr");
+        float *meanCorr = m_sweeper->meanCorrelator();
+        for (int i = 0; i < m_sweeper->nElements(); i++) {
+            print(i, meanCorr[i]);
+        }
     }
 }
+
 
 
 

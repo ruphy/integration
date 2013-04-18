@@ -22,11 +22,7 @@
 #define PATHINT_H
 
 #include "../esbase.h"
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_real_distribution.hpp>
-#include <boost/math/constants/constants.hpp>
-
-#define N 64
+#include "sweeper.h"
 
 class PathInt : public EsBase
 {
@@ -37,40 +33,9 @@ protected:
     virtual void exec(int sweepN);
 
 private:
-    inline real deltaS(real xmin, real xi, real xplus, real b);
-    inline bool acceptState(real xmin, real xi, real xplus, real b);
-
-    real S();
-
-    void reset();
-    void sweep();
-
-    void changeState(int i);
-
-    real m_x[N];
-    real m_xN[N];
-
-    real m_M, m_W, m_A, m_Del;
-    boost::random::mt19937* m_gen;
+    Sweeper* m_sweeper;
 };
 
-bool PathInt::acceptState(real xmin, real xi, real xplus, real b)
-{
-    real DS = pow(boost::math::constants::e<float>(), deltaS(xmin, xi, xplus, b));
-    if (DS >= 1) {
-        return true;
-    } else {
-        boost::random::uniform_real_distribution<real> dist(0, 1);
-        return DS > dist(*m_gen);
-    }
-}
 
-real PathInt::deltaS(real xmin, real xi, real xplus, real b)
-{
-    real U = m_M*pow(m_W, 2)*(pow(b,2) - pow(xi, 2))/2;
-    real Tb = pow((b-xmin)/m_A, 2) + pow((b-xplus)/m_A, 2);
-    real Ta = pow((xplus-xi)/m_A, 2) + pow((xmin-xi)/m_A, 2);
-    return -m_A*(U)-m_A*m_M*(Tb-Ta)/2;
-}
 
 #endif // PATHINT_H

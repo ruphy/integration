@@ -14,6 +14,7 @@ src/integrali/integralemc.cpp
 src/agobuffon.cpp
 src/esbase.cpp
 src/pathint/pathint.cpp
+src/pathint/sweeper.cpp
 )
 
 target_link_libraries(integration ${Boost_LIBRARIES} gmp)

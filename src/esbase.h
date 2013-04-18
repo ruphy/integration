@@ -23,6 +23,7 @@
 
 #include <boost/multiprecision/gmp.hpp>
 #include <iostream>
+#include <string>
 
 // typedef double real;
 typedef boost::multiprecision::mpf_float_50 real;
@@ -48,6 +49,11 @@ protected:
     void setMinIterations(int min);
     void setMaxIterations(int max);
     void setIterations(int min, int max);
+
+    int maxIterations();
+    int minIterations();
+
+    void printHeader(const std::string &header);
 
     virtual void exec(int iterations) = 0;
     void setExecType(EsBase::ExecType execType);

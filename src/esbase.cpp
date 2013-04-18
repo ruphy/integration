@@ -20,6 +20,7 @@
 #include "esbase.h"
 
 #include <iostream>
+#include <string>
 
 EsBase::EsBase()
 {
@@ -55,6 +56,16 @@ void EsBase::setIterations(int min, int max)
     setMinIterations(min);
 }
 
+int EsBase::maxIterations()
+{
+    return m_maxIterations;
+}
+
+int EsBase::minIterations()
+{
+    return m_minIterations;
+}
+
 void EsBase::setMaxIterations(int max)
 {
     m_maxIterations = max;
@@ -65,3 +76,7 @@ void EsBase::setMinIterations(int min)
     m_minIterations = min;
 }
 
+void EsBase::printHeader(const std::string &header)
+{
+    std::cout << header << std::endl;
+}
