@@ -65,7 +65,7 @@ void Sweeper::doSweep()
 
         float tempSum = 0;
         for (int i = 0; i < N; i++) {
-            tempSum += m_x[i]*m_x[i+j]/64;
+            tempSum += m_x[i]*m_x[(i+j) % N]/64;
         }
         m_correlator[j] = tempSum;
 
@@ -106,14 +106,7 @@ void Sweeper::changeState(int i)
     float xin = m_x[i] + m_Del*dist(*m_gen);
 
     bool accept;
-
-    if (i == 0) {
-        accept = acceptState(m_x[N-1], m_x[i], m_x[i+1], xin);
-    } else if (i == N-1) {
-        accept = acceptState(m_x[i-1], m_x[i], m_x[0], xin);
-    } else {
-        accept = acceptState(m_x[i-1], m_x[i], m_x[i+1], xin);
-    }
+    accept = acceptState(m_x[(i-1) % N], m_x[i % N], m_x[(i+1) %N], xin);
 
     if (accept) {
         m_xN[i] = xin;

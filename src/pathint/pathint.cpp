@@ -29,7 +29,7 @@ PathInt::PathInt()
  : m_sweeper(new Sweeper)
 {
     setExecType(EsBase::Linear);
-    setMaxIterations(200); // 1000 sweeps
+    setMaxIterations(200); // 200 sweeps
     setMinIterations(1);
 
 //     printHeader("n,S");
@@ -38,13 +38,13 @@ PathInt::PathInt()
 void PathInt::exec(int sweepN)
 {
     m_sweeper->doSweep();
-//     print(sweepN, m_sweeper->S());
+    print(sweepN, m_sweeper->S());
 
     if (sweepN == maxIterations()) {
 //         printHeader("j,corr");
         float *meanCorr = m_sweeper->meanCorrelator();
         for (int i = 0; i < m_sweeper->nElements(); i++) {
-            print(i, meanCorr[i]);
+//             print(i, meanCorr[i]);
         }
     }
 }

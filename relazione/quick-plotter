@@ -3,10 +3,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+import fileinput
 
-print "Plotting: %s..." % sys.argv[1]
+if (len(sys.argv) == 2) :
+  print "Plotting: %s..." % sys.argv[1]
+else:
+  print "Plotting from standard input..."
 
-rec = np.recfromcsv(sys.argv[1], names=['a', 'b'])
+a = []
+
+for line in fileinput.input():
+  a.append(line.strip().split(','))
+
+rec = np.core.records.fromrecords(a, names=['a','b'])
+
 plt.plot(rec['a'], rec['b'])
 plt.show()
 
