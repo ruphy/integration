@@ -23,13 +23,17 @@
 #include <boost/random/uniform_real_distribution.hpp>
 #include <boost/random/mersenne_twister.hpp>
 
+#include <functional>
+#include <numeric>
+
+
 #include "sweeper.h"
 
 PathInt::PathInt()
  : m_sweeper(new Sweeper)
 {
     setExecType(EsBase::Linear);
-    setMaxIterations(10000); // n of sweeps
+    setMaxIterations(100000); // n of sweeps
     setMinIterations(1);
 
     m_sweeper->setTotalSweeps(maxIterations());
@@ -71,8 +75,19 @@ void PathInt::exec(int sweepN)
                 gamma0 = variance;
             }
 
-            print(t, variance/gamma0);
+//             print(t, variance/gamma0);
         }
+
+        for (int i = 0; i < m_sweeper->nElements(); i++) {
+            std::vector<double> v = m_sweeper->get_cluster(i);
+//             double sum = std::accumulate(v.begin(), v.end(), 0.0);
+//             double mean = sum / v.size();
+
+//             double sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
+//             double stdev = std::sqrt(sq_sum / v.size() - mean * mean);
+//             print(i, mean);
+        }
+
     }
 }
 

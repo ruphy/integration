@@ -27,6 +27,7 @@ Sweeper::Sweeper()
     m_W = 1;
     m_Del = 3;
     m_totalSweeps = 1;
+    m_tau = 100;
 
     reset();
 
@@ -52,6 +53,7 @@ void Sweeper::reset()
         m_correlator[i] = 0;
         m_meanCorrelator[i] = 0;
     }
+//     for (int i = 0; i <
 }
 
 void Sweeper::doSweep()
@@ -65,6 +67,7 @@ void Sweeper::doSweep()
 //     for (int i = 0; i < N; i++) {
 //         m_x[i] = m_xN[i];
 //     }
+
 
     // update the correlator
     for (int j = 0; j < N; j++) {
@@ -81,10 +84,10 @@ void Sweeper::doSweep()
             m_corr_0.push_back(tempSum);
         }
 
-        // update mean correlator
-//         if (m_sweepsDone != 1) {
-//             m_meanCorrelator[j] *= (m_sweepsDone-1)/(m_sweepsDone);
-//         }
+        if (m_sweepsDone >= m_tau ) {
+            m_binnedCorrelator[(int)(m_sweepsDone-m_tau)/m_tau][j] += tempSum/m_tau;
+        }
+
         m_meanCorrelator[j] += tempSum/m_totalSweeps;
     }
 }
@@ -106,9 +109,28 @@ int Sweeper::nElements()
     return N;
 }
 
+// Get cluster for physical time i
+std::vector< double > Sweeper::get_cluster(int i)
+{
+    std::vector< double > cluster;
+    // Calcola il valor medio del correlatore per il tempo i
+    double corr_m = 0;
+    for (int j = 0; j < m_totalBins; j++) {
+        corr_m += m_binnedCorrelator[j][i];
+    }
+    corr_m = corr_m/m_totalBins;
+
+    for (int k = 0; k < m_totalBins; k++) {
+        double a_k = corr_m - m_binnedCorrelator[k][i]/(m_totalBins-1);
+        cluster.push_back(a_k);
+    }
+}
+
 void Sweeper::setTotalSweeps(int totalSweeps)
 {
     m_totalSweeps = totalSweeps;
+    m_totalBins = (totalSweeps/m_tau);
+    m_binnedCorrelator = std::vector< std::vector<double> >(m_totalBins, std::vector<double>(N, 0.));
 }
 
 double Sweeper::S()

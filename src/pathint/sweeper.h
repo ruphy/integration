@@ -50,6 +50,8 @@ public:
 
     int nElements();
 
+    std::vector<double> get_cluster(int i);
+
 private:
     void reset();
 
@@ -73,6 +75,11 @@ private:
 
     int m_sweepsDone;
     int m_totalSweeps;
+    int m_tau;
+//     std::vector<double> m_binnedCorrelator[N];
+    std::vector< std::vector<double> > m_binnedCorrelator;
+    int m_totalBins;
+
 };
 
 bool Sweeper::acceptState(double xmin, double xi, double xplus, double b)
