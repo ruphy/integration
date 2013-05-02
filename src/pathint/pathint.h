@@ -28,7 +28,8 @@ class PathInt : public EsBase
 {
 public:
     PathInt();
-
+    ~PathInt();
+    
 protected:
     virtual void exec(int sweepN);
 

@@ -29,22 +29,49 @@ PathInt::PathInt()
  : m_sweeper(new Sweeper)
 {
     setExecType(EsBase::Linear);
-    setMaxIterations(200); // 200 sweeps
+    setMaxIterations(10000); // n of sweeps
     setMinIterations(1);
 
+    m_sweeper->setTotalSweeps(maxIterations());
 //     printHeader("n,S");
+}
+
+PathInt::~PathInt()
+{
+    delete m_sweeper;
 }
 
 void PathInt::exec(int sweepN)
 {
     m_sweeper->doSweep();
-    print(sweepN, m_sweeper->S());
+//     print(sweepN, m_sweeper->S());
 
     if (sweepN == maxIterations()) {
-//         printHeader("j,corr");
-        float *meanCorr = m_sweeper->meanCorrelator();
+
+        double *meanCorr = m_sweeper->meanCorrelator();
         for (int i = 0; i < m_sweeper->nElements(); i++) {
 //             print(i, meanCorr[i]);
+        }
+
+        std::vector<double> corr_0 = m_sweeper->corr_0();
+        double meancorr_0 = meanCorr[3];
+        double gamma0 = 0;
+
+        for (int t = 0; t < 100; t++) {
+
+            double variance = 0;
+
+            for (int i = 0; i < sweepN - t; i++) {
+                variance += corr_0[i]*corr_0[i+t]/(sweepN-t);
+            }
+
+            variance -= pow(meancorr_0, 2.0);
+
+            if (t == 0) {
+                gamma0 = variance;
+            }
+
+            print(t, variance/gamma0);
         }
     }
 }

@@ -26,6 +26,7 @@ Sweeper::Sweeper()
     m_M = 1;
     m_W = 1;
     m_Del = 3;
+    m_totalSweeps = 1;
 
     reset();
 
@@ -36,6 +37,11 @@ Sweeper::Sweeper()
     m_gen = new boost::random::mt19937(time(0) + getpid());
 
     m_sweepsDone = 0;
+}
+
+Sweeper::~Sweeper()
+{
+    delete m_gen;
 }
 
 void Sweeper::reset()
@@ -56,32 +62,43 @@ void Sweeper::doSweep()
     for (int i = 0; i < N; i++) { // for every element in x...
         changeState(i);
     }
-    for (int i = 0; i < N; i++) {
-        m_x[i] = m_xN[i];
-    }
+//     for (int i = 0; i < N; i++) {
+//         m_x[i] = m_xN[i];
+//     }
 
     // update the correlator
     for (int j = 0; j < N; j++) {
 
-        float tempSum = 0;
+        double tempSum = 0;
         for (int i = 0; i < N; i++) {
-            tempSum += m_x[i]*m_x[(i+j) % N]/64;
+            tempSum += m_x[i]*m_x[(i+j) % N]/N;
         }
         m_correlator[j] = tempSum;
 
-        if (m_sweepsDone != 1) {
-            m_meanCorrelator[j] *= m_sweepsDone/(m_sweepsDone-1);
+        if (j == 3) {
+            // save the correlator for each markovian time
+            // for j = 3
+            m_corr_0.push_back(tempSum);
         }
-        m_meanCorrelator[j] += tempSum/m_sweepsDone;
-    }
 
+        // update mean correlator
+//         if (m_sweepsDone != 1) {
+//             m_meanCorrelator[j] *= (m_sweepsDone-1)/(m_sweepsDone);
+//         }
+        m_meanCorrelator[j] += tempSum/m_totalSweeps;
+    }
 }
 
 /////////////////////////////
 
-float* Sweeper::meanCorrelator()
+double* Sweeper::meanCorrelator()
 {
     return m_meanCorrelator;
+}
+
+std::vector<double> Sweeper::corr_0()
+{
+    return m_corr_0;
 }
 
 int Sweeper::nElements()
@@ -89,9 +106,14 @@ int Sweeper::nElements()
     return N;
 }
 
-float Sweeper::S()
+void Sweeper::setTotalSweeps(int totalSweeps)
 {
-    float tempS = 0;
+    m_totalSweeps = totalSweeps;
+}
+
+double Sweeper::S()
+{
+    double tempS = 0;
     for (int i = 0; i < N-1; i++) {
         tempS += m_M*pow((m_x[i+1]-m_x[i]), 2)/2 + m_A*(m_M*pow(m_W, 2)*pow(m_x[i], 2)/2);
     }
@@ -101,15 +123,14 @@ float Sweeper::S()
 
 void Sweeper::changeState(int i)
 {
-    boost::random::uniform_real_distribution<float> dist(-1, 1);
+    boost::random::uniform_real_distribution<double> dist(-1, 1);
 
-    float xin = m_x[i] + m_Del*dist(*m_gen);
+    double xin = m_x[i] + m_Del*dist(*m_gen);
 
-    bool accept;
-    accept = acceptState(m_x[(i-1) % N], m_x[i % N], m_x[(i+1) %N], xin);
-
-    if (accept) {
-        m_xN[i] = xin;
+    // we have the new state, should we accept it?
+    if (acceptState(m_x[(i-1+N) % N], m_x[i % N], m_x[(i+1) %N], xin)) {
+        m_x[i] = xin;
+//         m_xN[i] = xin;
     }
 }
 

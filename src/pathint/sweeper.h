@@ -33,51 +33,64 @@ class Sweeper
 {
 public:
     Sweeper();
+    ~Sweeper();
 
     void doSweep();
-    float S();
+    double S();
 
-    float* meanCorrelator();
+    double* meanCorrelator();
+    int sweepsDone();
+
+    void setTotalSweeps(int totalSweeps);
+
+    // Returns a vector of lenght sweepsDone();
+    // containing the correlator for physical time 3
+    // at Markovian time [i]
+    std::vector<double> corr_0();
 
     int nElements();
 
 private:
     void reset();
+
     /**
-     * Change (maybe?) the state of the i-th element
+     * Try to change the state of the i-th element
      */
     void changeState(int i);
 
-    inline float deltaS(float xmin, float xi, float xplus, float b);
-    inline bool acceptState(float xmin, float xi, float xplus, float b);
+    inline double deltaS(double xmin, double xi, double xplus, double b);
+    inline bool acceptState(double xmin, double xi, double xplus, double b);
 
-    float m_x[N];
-    float m_xN[N];
-    float m_correlator[N];
-    float m_meanCorrelator[N];
+    double m_x[N];
+    double m_xN[N];
+    double m_correlator[N];
+    double m_meanCorrelator[N];
 
-    float m_M, m_W, m_A, m_Del;
+    double m_M, m_W, m_A, m_Del;
     boost::random::mt19937* m_gen;
+    
+    std::vector<double> m_corr_0;
 
     int m_sweepsDone;
+    int m_totalSweeps;
 };
 
-bool Sweeper::acceptState(float xmin, float xi, float xplus, float b)
+bool Sweeper::acceptState(double xmin, double xi, double xplus, double b)
 {
-    float DS = pow(boost::math::constants::e<float>(), deltaS(xmin, xi, xplus, b));
+    double DS = pow(boost::math::constants::e<double>(), deltaS(xmin, xi, xplus, b));
     if (DS >= 1) {
         return true;
     } else {
-        boost::random::uniform_real_distribution<float> dist(0, 1);
+        boost::random::uniform_real_distribution<double> dist(0, 1);
         return DS > dist(*m_gen);
     }
 }
 
-float Sweeper::deltaS(float xmin, float xi, float xplus, float b)
+double Sweeper::deltaS(double xmin, double xi, double xplus, double b)
 {
-    float U = m_M*pow(m_W, 2)*(pow(b,2) - pow(xi, 2))/2;
-    float Tb = pow((b-xmin)/m_A, 2) + pow((b-xplus)/m_A, 2);
-    float Ta = pow((xplus-xi)/m_A, 2) + pow((xmin-xi)/m_A, 2);
+    double U = m_M*pow(m_W, 2)*(pow(b,2) - pow(xi, 2))/2;
+    double Tb = pow((b-xmin)/m_A, 2) + pow((b-xplus)/m_A, 2);
+    double Ta = pow((xplus-xi)/m_A, 2) + pow((xmin-xi)/m_A, 2);
     return -m_A*(U)-m_A*m_M*(Tb-Ta)/2;
 }
 
