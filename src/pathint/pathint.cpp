@@ -80,12 +80,17 @@ void PathInt::exec(int sweepN)
 
         for (int i = 0; i < m_sweeper->nElements(); i++) {
             std::vector<double> v = m_sweeper->get_cluster(i);
-//             double sum = std::accumulate(v.begin(), v.end(), 0.0);
-//             double mean = sum / v.size();
+            double sum = std::accumulate(v.begin(), v.end(), 0.0);
+            double mean = sum / v.size();
 
+            double stddev = 0.0;
+            for (std::vector<double>::iterator j = v.begin(); j != v.end(); j++) {
+                stddev += std::pow(*j-mean, 2);
+            }
+            stddev *= (double)(m_sweeper->nElements()-1)/m_sweeper->nElements();
 //             double sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
 //             double stdev = std::sqrt(sq_sum / v.size() - mean * mean);
-//             print(i, mean);
+            print(i, mean, stddev);
         }
 
     }

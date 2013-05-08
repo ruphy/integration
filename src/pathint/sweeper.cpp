@@ -124,6 +124,7 @@ std::vector< double > Sweeper::get_cluster(int i)
         double a_k = corr_m - m_binnedCorrelator[k][i]/(m_totalBins-1);
         cluster.push_back(a_k);
     }
+    return cluster;
 }
 
 void Sweeper::setTotalSweeps(int totalSweeps)
