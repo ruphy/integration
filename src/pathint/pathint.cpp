@@ -90,7 +90,25 @@ void PathInt::exec(int sweepN)
             stddev *= (double)(m_sweeper->nElements()-1)/m_sweeper->nElements();
 //             double sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
 //             double stdev = std::sqrt(sq_sum / v.size() - mean * mean);
-            print(i, mean, stddev);
+//             print(i, mean, stddev);
+        }
+
+        for (int t = 1; t < 5; t++) {
+            // Delta E
+            // t between 2 and n-1
+            std::vector<double> Ek;
+            for (int i = 0; i < m_sweeper->nElements(); i++) {
+                if (i > 0 and i < 5) {
+                    double deltaEi = m_sweeper->get_cluster(t+1)[i]+m_sweeper->get_cluster(t-1)[i];
+                    deltaEi /= 2*m_sweeper->get_cluster(t)[i];
+                    deltaEi = acosh(deltaEi);
+                    Ek.push_back(deltaEi);
+                }
+            }
+            double sum = std::accumulate(Ek.begin(), Ek.end(), 0.0);
+            double mean = sum / Ek.size();
+
+            print (t, mean);
         }
 
     }

@@ -8,9 +8,11 @@
 #include "src/agobuffon.h"
 #include "src/pathint/pathint.h"
 
-class Esercizi {
+class Esercizi
+{
 public:
-    enum Esercizio {
+    enum Esercizio
+    {
         EsSerie,
         IntDeterm,
         IntMontecarlo,
@@ -18,31 +20,32 @@ public:
         PathIntegral
 
     };
-
+    
     void run(Esercizio tipo);
 };
 
 void Esercizi::run(Esercizi::Esercizio tipo)
 {
     EsBase *es;
-    switch (tipo) {
-        case EsSerie:
-            es = new Serie;
-            break;
-        case IntDeterm:
-            es = new IntegraleDeterministico(1, 10);
-            break;
-        case IntMontecarlo:
-            es = new IntegraleMC(1, 10);
-            break;
-        case AgoBuffonTipo:
-            es = new AgoBuffon;
-            break;
-        case PathIntegral:
-            es = new PathInt;
-            break;
-        default:
-            std::cout << "Esercizio non ancora implementato" << std::endl;
+    switch (tipo)
+    {
+    case EsSerie:
+        es = new Serie;
+        break;
+    case IntDeterm:
+        es = new IntegraleDeterministico(1, 10);
+        break;
+    case IntMontecarlo:
+        es = new IntegraleMC(1, 10);
+        break;
+    case AgoBuffonTipo:
+        es = new AgoBuffon;
+        break;
+    case PathIntegral:
+        es = new PathInt;
+        break;
+    default:
+        std::cout << "Esercizio non ancora implementato" << std::endl;
     }
 
     es->statRun();
