@@ -33,7 +33,7 @@ PathInt::PathInt()
  : m_sweeper(new Sweeper)
 {
     setExecType(EsBase::Linear);
-    setMaxIterations(100000); // n of sweeps
+    setMaxIterations(1000); // n of sweeps
     setMinIterations(1);
 
     m_sweeper->setTotalSweeps(maxIterations());
@@ -93,7 +93,7 @@ void PathInt::exec(int sweepN)
 //             print(i, mean, stddev);
         }
 
-        for (int t = 1; t < 5; t++) {
+        for (int t = 1; t < 7; t++) {
             // Delta E
             // t between 2 and n-1
             std::vector<double> Ek;
@@ -108,7 +108,14 @@ void PathInt::exec(int sweepN)
             double sum = std::accumulate(Ek.begin(), Ek.end(), 0.0);
             double mean = sum / Ek.size();
 
-            print (t, mean);
+            double variance = 0.0;
+            for (std::vector<double>::iterator j = Ek.begin(); j != Ek.end(); j++) {
+                variance += std::pow(*j-mean, 2);
+            }
+            variance *= (double)(m_sweeper->nElements()-1)/m_sweeper->nElements();
+
+
+            print (t, mean, sqrt(variance));
         }
 
     }

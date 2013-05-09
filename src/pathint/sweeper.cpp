@@ -64,19 +64,19 @@ void Sweeper::doSweep()
     for (int i = 0; i < N; i++) { // for every element in x...
         changeState(i);
     }
-//     for (int i = 0; i < N; i++) {
-//         m_x[i] = m_xN[i];
-//     }
 
+    double tempSum;
+    int j, i;
 
     // update the correlator
-    for (int j = 0; j < N; j++) {
+    for (j = 0; j < N; j++) {
+        tempSum = 0;
 
-        double tempSum = 0;
-        for (int i = 0; i < N; i++) {
-            tempSum += m_x[i]*m_x[(i+j) % N]/N;
+        for (i = 0; i < N; i++) {
+            tempSum += m_x[i]*m_x[(i+j) % N];
         }
-        m_correlator[j] = tempSum;
+
+        m_correlator[j] = tempSum/N;
 
         if (j == 3) {
             // save the correlator for each markovian time
