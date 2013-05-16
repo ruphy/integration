@@ -56,6 +56,8 @@ protected:
      */
     inline real h() const;
 
+    virtual void exec(int iterations) = 0;
+
     const real m_a, m_b;
 
 private:

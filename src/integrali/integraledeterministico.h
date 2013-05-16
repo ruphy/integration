@@ -28,13 +28,14 @@ public:
     IntegraleDeterministico(int a, int b);
 
 protected:
-    virtual void exec(int n) {};
+    virtual void exec(int n);
 
 private:
     real trapezi();
     real simpson();
     real gauss();
 
+    real m_f;
 };
 
 #endif // INTEGRALEDETERMINISTICO_H

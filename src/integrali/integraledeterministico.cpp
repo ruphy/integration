@@ -33,40 +33,20 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
   : IntegraleBase(a, b)
 {
     setIntervalli(10);
-
-//     std::cout << "L'integrale della funzione con il metodo dei trapezi e'" << std::endl;
-//     std::cout << trapezi() << std::endl;
-//     std::cout << std::endl;
-//
-//     std::cout << "L'integrale della funzione con il metodo di Simpson e'" << std::endl;
-//     std::cout << simpson() << std::endl;
-//     std::cout << std::endl;
-//
-//     std::cout << "L'integrale della funzione con il metodo delle quadrature gaussiane e'" << std::endl;
-//     std::cout << gauss() << std::endl;
-//     std::cout << std::endl;
-
-
     std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 
-//  real f = 417.8077683550236335115029616847558823314866942; // VERO VALORE
-    real f;
-    f.assign("417.8077683550236335115029616847558823314866942");
+    m_f.assign("417.8077683550236335115029616847558823314866942");
+    setMinIterations(2);
+    setMaxIterations(pow(10, 6));
+    setExecType(EsBase::Quadratic);
 
-    // Statistica
-    for (int i = 2; i <= pow(10, 6); i+=100*log(i)) {
-        setIntervalli(i);
+    printHeader("intervalli,trapezi,simpson,gauss");
+}
 
-//         real gaus = gauss();
-//         real deltag = f-gauss();
-
-        std::cout << "[" << i << ", " << abs(trapezi()-f) << ", " << abs(simpson()-f) << ", " <<
-                    abs(f-gauss()) << "]," << std::endl;
-//         std::cout << gauss() << std::endl;
-//         std::cout << f << " - " << gaus << std::endl;
-//         std::cout << f-gaus << std::endl;
-    }
-
+void IntegraleDeterministico::exec(int n)
+{
+    setIntervalli(n);
+    print(n, abs(trapezi()-m_f), abs(simpson()-m_f), abs(m_f-gauss()));
 }
 
 real IntegraleDeterministico::trapezi()
