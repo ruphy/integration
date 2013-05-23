@@ -25,3 +25,7 @@ plot('sommaprecisa', minx=20, maxx=25)
 
 execfile('data/det-bigprecision.py')
 plot('bigprecision', 'upper right', 'upper left', True, 10, 60)
+
+import numpy as np
+funzione1 = np.recfromcsv("data/int-det-10-6.csv")
+plot('bigprecision-longrun', 'upper right', 'upper left', True, 11, 100)

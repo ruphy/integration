@@ -1,2 +1,5 @@
 .kdev4/
 build/
+*.aux
+*.pdf
+*.log
