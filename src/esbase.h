@@ -56,6 +56,7 @@ protected:
     void printHeader(const std::string &header);
 
     virtual void exec(int iterations) = 0;
+
     void setExecType(EsBase::ExecType execType);
 
 private:

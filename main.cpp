@@ -55,7 +55,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::PathIntegral);
+    es.run(Esercizi::IntDeterm);
 
     return 0;
 }

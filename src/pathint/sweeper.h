@@ -64,7 +64,6 @@ private:
     inline bool acceptState(double xmin, double xi, double xplus, double b);
 
     double m_x[N];
-    double m_xN[N];
     double m_correlator[N];
     double m_meanCorrelator[N];
 

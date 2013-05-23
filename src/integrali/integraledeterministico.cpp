@@ -75,7 +75,6 @@ real IntegraleDeterministico::gauss()
 {
     resetIntegral();
 
-
     real omega1 = ((real)128.)/225;
     real omega23 = ((322+13*sqrt((real)70))/900);
     real omega45 = ((322-13*sqrt((real)70))/900);
@@ -83,16 +82,12 @@ real IntegraleDeterministico::gauss()
     real xi23 = ( ((real)1) /3)*sqrt(5-2*sqrt( (real)(10./7) ));
     real xi45 = ( ((real)1) /3)*sqrt(5+2*sqrt( (real)(10./7) ));
 
-//     std::cout << xi23 << std::endl;
-//     std::cout << " 1: " << omega1 << " - 2: " << omega23 << " - 3: " << omega45 << std::endl;
-
     for (int i = 0; i < intervalli(); i++) {
 
         real c = (x_i(i+1)+x_i(i))/2.;
         real m = (x_i(i+1)-x_i(i))/2.;
 
         // http://mathworld.wolfram.com/Legendre-GaussQuadrature.html
-
 
         add( m*omega1*f_test(c) ); // root = 0
 

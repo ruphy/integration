@@ -49,11 +49,9 @@ void Sweeper::reset()
 {
     for (int i = 0; i < N; i++) {
         m_x[i] = 0;
-        m_xN[i] = 0;
         m_correlator[i] = 0;
         m_meanCorrelator[i] = 0;
     }
-//     for (int i = 0; i <
 }
 
 void Sweeper::doSweep()
@@ -153,7 +151,6 @@ void Sweeper::changeState(int i)
     // we have the new state, should we accept it?
     if (acceptState(m_x[(i-1+N) % N], m_x[i % N], m_x[(i+1) %N], xin)) {
         m_x[i] = xin;
-//         m_xN[i] = xin;
     }
 }
 
