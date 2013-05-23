@@ -1,6 +1,6 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
-
+\usepackage[italian]{babel}
 %opening
 \title{Relazioni dal laboratorio di calcolo}
 \author{Riccardo Iaconelli}
@@ -10,10 +10,22 @@
 \maketitle
 
 \begin{abstract}
-Durante
+Durante il Laboratorio di calcolo del terzo anno vengono mostrate alcune tecniche numeriche per la soluzione di problemi comuni in Fisica. In particolare l'attenzione è posta su diverse tecniche per svolgere integrali, sia di tipo deterministico che Monte-Carlo. Il programma si divide in più parti: per cominciare una sezione in cui si investigano tecniche per ridurre l'imprecisione numerica implicita di un calcolatore, dopodiché si studiano imprecisioni e rapidità di diversi algoritmi per il calcolo di integrali, e infine si applicano queste tecniche a problemi fisici. Come ultimo esercizio si implementa il metodo di Runge-Kutta per risolvere numericamente equazioni differenziali.
 \end{abstract}
+\clearpage
 
-\section{Serie numeriche e precisione float}
+\section{Serie numeriche e precisione floating point}
+Questo primo esercizio viene eseguito per mostrare come si possono ridurre eventuali errori di calcolo introdotti dalle normali operazioni aritmetiche.
+
+\subsection{Analisi teorica}
+All'interno del calcolatore le cifre non sono rappresentabili con precisione infinita. Con ogni operazione è possibile ottenere errori dovuti a due tipi di problemi.
+\begin{description}
+ \item[Errore di overflow (o underflow)] Questo errore avviene quando il risultato è più grande del massimo numero rappresentabile, o più piccolo del minimo numero rappresentabile.
+ \item[Errore di troncamento] Quando la precisione della \textit{mantissa} 
+\end{description}
+
+Per vedere come questo è possibile, studiamo come sono rappresentati i numeri all'interno di un calcolatore.
+
 \section{Integrazione con metodi deterministici}
 \subsection{Metodo dei Trapezi}
 \subsection{Metodo di Simpson}
