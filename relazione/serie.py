@@ -19,14 +19,18 @@ plt.title(r"$\sum_{n=1}^{N} \frac{1}{n^2}$")
 a = []
 n = []
 for el in sommaCrescente:
-  a.append(abs(el[1]-1.64493406685))
+#  a.append(abs(el[1]-1.64493406685))
   n.append(el[0])
+  a.append(abs(el[2]))
 plt.plot(n, a, 'o')
 a = []
 n = []
 for el in sommaDecrescente:
-  a.append(abs(el[1]-1.64493406685))
+#  a.append(abs(el[1]-1.64493406685))
   n.append(el[0])
+  a.append(abs(el[2]))
+
+
 plt.plot(n, a, '.')
 plt.yscale('log')
 plt.xscale('log')

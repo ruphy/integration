@@ -14,9 +14,10 @@ class IntegraliBackend:
     else:
       self.disegna1(legenda1)
     param = self.findfit(minx, maxx)
-    xin = np.arange(2, 100)
-    yin = func(param, xin)
-    plt.plot(xin, yin)
+    print param
+    #xin = np.arange(2, 100)
+    #yin = func(param, xin)
+    #plt.plot(xin, yin)
     plt.savefig("images/integrali/integrali"+titolo+".png")
     #self.disegna2(legenda2)
     #plt.savefig("images/integrali/integrali-intervalli"+titolo+".png")
