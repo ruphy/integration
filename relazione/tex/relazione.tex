@@ -273,7 +273,7 @@ Esistono diversi metodi deterministici per approssimare numericamente integrali 
 
 I risultati ottenuti sono compatibili con le previsioni teoriche.
 
-\section{Integrazione Monte-Carlo}
+\section{Integrazione Montecarlo}
 
 I metodi per l'integrazione deterministica sono molto efficienti, ma risentono di problemi quando si vogliano adattare a casi multidimensionali.
 Un'analisi approfondita degli errori nel caso multidimensionale mostra che la complessità computazionale cresce esponenzialmente con il numero delle dimensioni. Se prima il costo computazionale $N_c$ era proporzionale al numero di intervalli $m$, ora $N_c \propto m^d$, dove $d$ è il numero di dimensioni. Questo ha effetti catastrofici sulla convergenza degli integrali. Ad esempio, nel caso dei trapezi, l'errore diventa:
@@ -283,7 +283,36 @@ Ciò è particolarmente problematico per integrali in $10^9$ dimensioni, non rar
 Per ovviare a questo fatto, vengono introdotti i metodi di integrazione Montecarlo, che basano la loro efficacia sul campionamento casuale della funzione. Questi metodi hanno la piacevole caratteristica (derivante da teoremi statistici) di avere un errore sempre proporzionale a $N^{-1/2}$ (con $N$ numero di campionamenti), indipendentemente dal numero di dimensioni in cui si sta operando.
 
 Il teorema su cui si basa la teoria dell'integrazione Monte-Carlo è il teorema del limite centrale, che stabilisce che, date $N$ variabili aleatorie $\{x_i\}$ con distribuzione di probabilità qualsiasi, al limite $N\to\infty$ la variabile somma $y = \sum x_i$ sarà distribuita in modo gaussiano.
-In generale allora
+
+Supponiamo di volere calcolare l'integrale tra 0 e 1 di una generica funzione $f(x)$. Avendo a disposizione un generatore di numeri casuali a probabilità piatta, ed estraendo le $x_i$ da questo generatore, il mio integrale sarà proprio il valor medio della variabile ottenuta dalle $x_i$ e definita come $y=f(x)$.
+In simboli:
+$$I:=\int_0^1 f(x) dx \simeq \frac{1}{N} \sum_{i=1}^{N} f(x_i) =: \bar{I}$$
+
+L'errore su questo integrale discende direttamente dalla sua natura statistica. Non possiamo più a questo punto parlare di maggiorante dell'errore ma soltanto di deviazioni standard rispetto alla media, utilizzando l'ipotesi che $y$ sia distribuito in maniera normale. In particolare l'errore su $\bar{I}$ sarà dato da:
+$$\sigma^2_{\bar{I}} = \frac{\sigma^2_x}{\sqrt{N}} = \frac{1}{N}\left(\frac{1}{N}\sum_{i=1}^N (f(x_i)-\bar{I})^2\right)$$
+
+\subsubsection{Campionamento di importanza}
+È possibile migliorare ulteriormente la precisione del metodo Montecarlo utilizzando il cosiddetto \textit{campionamento di importanza}. Questo metodo consiste nel trovare una funzione che bene approssimi il modulo della funzione $f(x)$ in modo da campionare più frequentemente i punti che danno maggiore contributo all'integrale.
+
+Supponiamo di avere questa funzione $g(x)$, che dovrà essere una distribuzione di probabilità negli estremi di integrazione. A questo punto, l'ovvia identità
+$$\int_0^1f(x)dx = \int_0^1\frac{f(x)}{g(x)} g(x)dx$$
+può essere altrimenti interpretata come il calcolo dell'integrale della funzione $$\frac{f(x)}{g(x)}$$ dove le $x_i$ sono state estratte con d.d.p. $g(x)$. Se $g(x)$ è ben scelta, il calcolo della varianza può essere estremamente ridotto, infatti:
+$$\sigma^2 = \frac{1}{N} \int_0^1 (\frac{f(x)}{g(x)}-I)^2 g(x)\,dx$$
+che ad esempio nel caso accademico in cui $g(x):=I\cdot f(x)$ diventa addirittura zero.
+
+\subsection{Integrazione di una funzione con il metodo Montecarlo}
+Proviamo ad integrare tramite metodo montecarlo la funzione di prima:
+$$f(x) = (e^x+1+x^9-8x^8+\sinh(5x))e^{-x^2}$$
+
+Essendo questa una funzione molto ostica per un metodo montecarlo (in quanto gli ordini di grandezza che la funzione assume nell'intervallo di integrazione sono molto diversi), ed essendo il metodo montecarlo computazionalmente molto costoso, rappresentiamo in grafico due valori:
+\begin{itemize}
+ \item Il valore di una singola integrazione, fissato il numero di campionamenti desiderati
+ \item Una media del valore calcolato su 30 integrazioni, e una stima dell'incertezza calcolata come deviazione standard gaussiana rispetto alle trenta integrazioni.
+\end{itemize}
+
+\includegraphics[scale=.5]{../images/montecarlo-comparison.png}
+
+È interessante notare come tutti i valori delle integrazioni singole rientrino comunque entro l'incertezza blah.FIXME
 
 \subsection{Ago di Buffon}
 
