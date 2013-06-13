@@ -75,7 +75,7 @@ void PathInt::exec(int sweepN)
                 gamma0 = variance;
             }
 
-//             print(t, variance/gamma0);
+            print(t, fabs(variance/gamma0));
         }
 
         for (int i = 0; i < m_sweeper->nElements(); i++) {
@@ -115,7 +115,7 @@ void PathInt::exec(int sweepN)
             variance *= (double)(m_sweeper->nElements()-1)/m_sweeper->nElements();
 
 
-            print (t, mean, sqrt(variance));
+//             print (t, mean, sqrt(variance));
         }
 
     }

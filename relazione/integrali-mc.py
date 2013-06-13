@@ -58,6 +58,14 @@ plt.savefig('images/montecarlo-con-stat.png')
 ## Plot comparativo
 
 plt.clf()
+
+import scipy.optimize as opt
+def fitter(xdata, *params):
+    return params[0]/(xdata**params[1])
+
+params, pcov = opt.curve_fit(fitter, x, y, p0=[100, .5])
+
+
 plt.errorbar(x, y, xerr=0, yerr=[yerr_lower, 2*errors], fmt='o') #xerr=errors, fmt='.')
 plt.plot(oldx, oldy, 'o')
 #plt.plot(x, y, 'o')
@@ -69,5 +77,11 @@ plt.ylabel('Errore medio (modulo)')
 plt.title(r"Metodo Montecarlo $\int_1^{10} (e^x+1+x^9-8x^8+\sinh(5x))e^{-x^2}dx$")
 plt.legend(('Media di 30 integrazioni', 'Singola integrazione'),
            'upper right', shadow=True, fancybox=True)
+
+#print params
+xin = np.arange(1000, 10e6, 1000)
+yin = fitter(xin, *params)
+plt.plot(xin, yin)
+
            
 plt.savefig('images/montecarlo-comparison.png')

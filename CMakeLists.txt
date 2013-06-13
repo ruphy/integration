@@ -28,6 +28,7 @@ src/integrali/integraledeterministico.cpp
 src/integrali/integralemc.cpp
 src/agobuffon.cpp
 src/esbase.cpp
+src/rungekutta.cpp
 src/pathint/pathint.cpp
 src/pathint/sweeper.cpp
 )

@@ -3,6 +3,7 @@
 \usepackage[italian]{babel}
 \usepackage{amsmath}
 \usepackage{graphicx}
+% \usepackage{fullpage}
 
 %opening
 \title{Relazioni dal laboratorio di calcolo}
@@ -83,7 +84,7 @@ Quando un calcolatore deve eseguire una somma, procede nel seguente modo:
 \end{itemize}
 
 Da questo processo si vede chiaramente come si ha una grossa perdita di precisione nel caso di somme di numeri di ordini di grandezza molto diversi tra loro. Quando infatti la differenza tra gli esponenti è dell'ordine di grandezza della precisione della mantissa, il contributo del numero più piccolo si perde nell'arrotondamento.
-
+9zpf6mkofteny953w
 Questo concetto sarà ulteriormente chiarito nel prossimo esercizio.
 
 \subsubsection{La serie di Eulero}
@@ -312,12 +313,133 @@ Essendo questa una funzione molto ostica per un metodo montecarlo (in quanto gli
 
 \includegraphics[scale=.5]{../images/montecarlo-comparison.png}
 
-È interessante notare come tutti i valori delle integrazioni singole rientrino comunque entro l'incertezza blah.FIXME
+È interessante notare come tutti i valori delle integrazioni singole rientrino comunque entro l'incertezza calcolata a posteriori.
+
+Un fit con la funzione $$y=\frac{A}{N^B}$$ mostra che l'errore scende con esponente $B\simeq 0.43\pm 0.02$, sufficientemente vicino al valore teorico di $0.5$.
 
 \subsection{Ago di Buffon}
+Una nota applicazione di tecniche di integrazione Montecarlo è il cosiddetto \emph{ago di Buffon}. Questa tecnica è in realtà la simulazione a calcolatore di un metodo fisico per il calcolo del pi greco.
 
-\section{Integali di Feynman}
+Si considerino un ago lungo $L$ ($<1$) e un listello di lunghezza unitaria. Il metodo per calcolare il valore di $\pi$ consiste nel contare il numero di volte in cui l'ago tocca il bordo del listello rispetto al numero totale di lanci.
+
+Chiamando $x$ l'angolo che l'ago forma con il bordo del listello, e $y$ la distanza verticale dal bordo inferiore, è chiaro che l'ago tocca il listello quando vale una delle due condizioni:
+$$y < \frac{L}{2}\sin(x) \quad\vee\quad y > 1-\frac{L}{2}\sin(x) $$
+Definiamo ora una funzione ``indicatrice'' $f(x, y)$ che valga 1 quando la condizione appena enunciata è verificata e 0 altrimenti. Il suo integrale è legato al valore di $\pi$ dalla seguente relazione:
+$$I=\frac{2L}{\pi}$$
+$$\sigma^2 = \frac{2L}{\pi} (1 - \frac{2L}{\pi})$$
+Notiamo che sia $x$ che $y$ sono estratte con distribuzione piatta tra $[0, \pi]$ e $[0,1]$.
+
+Variamo la lunghezza dell'ago e verifichiamo che la teoria venga effettivamente rispettata.
+
+\includegraphics[scale=.5]{../images/buffon.png}
+
+\section{Integali di cammino}
+\subsection{Le catene di Markov}
+
+Le catene di Markov sono un meccanismo per ottenere variabli casuali con distribuzioni di probabilità arbitrarie.
+
+Una catena di Markov è una serie di estrazioni che è caratterizzata dal fatto che ogni estrazione successiva alla prima dipende solamente dallo stato precedente del sistema.
+
+Dato $E_k = (x_{1_k}, \dots, x_{n_k})$, uno stato del sistema nello spazio delle fasi, definiamo:
+\begin{itemize}
+ \item $P_{jk}$ come la probabilità di estrarre lo stato $E_k$ a partire dallo stato $E_j$.
+ \item $a_k$ come la probabilità di ottenere lo stato $E_k$ alla prima estrazione.
+\end{itemize}
+
+Denotiamo inoltre con $f^{(n)}_{jk}$ la probabilità del sistema di passare dallo stato $j$ allo stato $k$ in $n$ passi.
+
+È possibile fare ogni tipo di calcolo sulla catena di Markov se si conosce $P_{jk}$ per ogni $j$ e per ogni $k$. Possiamo allora pensare di descrivere le transizioni della catena di Markov attraverso una matrice, detta anche \emph{matrice stocastica}. Notiamo come questa matrice abbia alcune ovvie proprietà:
+$$1\geq P_{jk} \geq 0\qquad \forall j \forall k$$
+$$\sum_k Pjk = 1$$
+
+Introduciamo il concetto di catena \emph{irriducibile}, che sarà il tipo di catena che ci interesserà. Una catena di Markov si dice irriducibile se tutti e soli i suoi stati formano un sistema chiuso, ovvero un insieme di stati per cui non è possibile raggiungere alcuno stato al di fuori di esso partendo dall'interno.
+In simboli, detto $A$ l'insieme di stati chiuso, ed essendo $E_k\in A$:
+$$P_{kl} = 0 \quad\text{se}\quad l\not\in A$$
+
+La probabilità di ottenere lo stato $E_k$ dallo stato $E_j$ una volta dopo un numero qualunque di passi è ovviamente dato da:
+$$f_{jk} = \sum_{n=1}^\infty f_{jk}^{(n)} $$
+e definiamo anche il tempo medio per ritornare nello stato $E_j$ come
+$$\mu_j = \sum_{n=1}^\infty n f_{jj}^{(n)}$$
+
+Terminiamo le nostre definizioni con alcune classificazioni per gli stati. Uno stato $E_j$ si dice \emph{persistente} se vale $f_{jj}=1$ e \emph{transiente} se $f_{jj}<1$. Se $E_j$ è persistente, viene detto \emph{nullo} se il tempo medio per ritornare $\mu_j = +\infty$, ed \emph{ergodico} altrimenti.
+
+Uno stato \emph{ergodico} è dunque uno stato persistente, non nullo e a-periodico.
+
+Gli stati ergodici sono gli unici che ci interessano, nel senso spiegato dal seguente teorema:
+\begin{itemize}
+ \item Sia $E_j$ uno stato di una catena di Markov. $E_j$ è \emph{transiente} se e solo se:
+ $$\sum_{n=0}^{+\infty} P^{(n)}_{ij} < +\infty\qquad \forall i$$
+ 
+ \item Sia $E_j$ uno stato di una catena di Markov. $E_j$ è \emph{persistente} e \emph{nullo} se e solo se:
+ $$\sum_{n=0}^{+\infty} P^{(n)}_{jj} = +\infty $$
+ $$\lim_{n\to+\infty} P^{(n)}_{ij} = 0 \qquad \forall i$$
+ 
+ \item Sia $E_j$ uno stato di una catena di Markov. $E_j$ è \emph{ergodico} se e solo se:
+ $$\sum_{n=0}^{+\infty} P^{(n)}_{ij} = \frac{f_{ij}}{\mu_j} \qquad \forall i$$
+ 
+\end{itemize}
+
+Gli stati ergodici sono gli unici per i quali esiste finito un limite per $P_{jk}$ che sia indipendente dallo stato iniziale, e dunque ci permettono di costruire una distribuzione di probabilità ben definita.
+
+\subsection{L'algoritmo di Metropolis}
+Con l'algoritmo Metropolis si possono generare facilmente catene di Markov. Il metodo non è il più efficiente conosciuto, ma è sufficientemente comodo per la nostra applicazione.
+
+La creazione della catena si basa sulla generazione casuale di stati, che vengono iterativamente accettati o rigettati fino ad ottenere la distribuzione di probabilità cercata.
+
+Supponiamo di avere un problema fisico per il quale si ha bisogno di una distribuzione di probabilità $R$. Dunque, data una catena di Markov in un generico stato $E_j$, creiamo uno stato di prova $E_{j+1}$ con una trasformazione qualunque.
+Il nuovo stato $E_{j+1}$ sarà accettato con probabilità $P = \max(1, R_{j+1}/R_j)$, dove $R_i = R(E_i)$. Iterando questo procedimento si ottiene la distribuzione di probabilità voluta.
+
+\subsection{La propagazione degli errori automatizzata}
+Una volta ottenuta la distribuzione cercata, e isolati degli osservabili $a_i$, è spesso necessario valutare alcune funzioni $f(a_i)$ degli osservabili stessi. Questo può essere problematico nel momento in cui cerchiamo di propagare l'errore statistico dell'osservabile, specialmente nel caso in cui sia complicato automatizzare il calcolo delle derivate di $f$.
+
+Per ovviare a questo ostacolo, si utilizza un metodo matematico chiamato \emph{metodo di Jacknife}.
+Questo metodo consiste fondamentalmente in un cambio di variabili. Dati $a_1,\dots,a_N$ degli osservabili di valor medio $\bar{a}$, definiamo
+$$a^k := \frac{1}{N-1}\sum_{i=1}^N(a_i-a_k) = \bar{a}-\frac{a_k-\bar{a}}{N-1}$$
+
+Queste nuove variabili $a^k$ hanno due interessanti proprietà.
+$$\left<a^k\right> = \bar{a} $$
+$$\text{Var}(\left<a^k\right>) = \text{Var}(\bar{a}) $$
+e se definiamo
+$$f^k:=f(a^k)$$
+non solo
+$$\left<f^k\right> = \bar{f}$$
+ma anche
+$$\text{Var}(\bar{f}) = \frac{N-1}{N} \sum_k (f^k-\bar{f})^2 = \text{Var}(\left<f^k\right>)$$
+dunque evitando il calcolo delle derivate. Infatti se non avessimo effettuato il cambio di variabile:
+$$\text{Var}(\bar{f}) = \text{Var}(\bar{a})\left(\frac{\partial f}{\partial a}\right)^2 $$
+
+\subsection{Oscillatore armonico}
+Utilizziamo la teoria descritta fin qui per calcolare i livelli energetici di un oscillatore armonico con gli integrali di cammino di Feynman. Poniamo per semplicità $m, \hbar$ e $\omega$ pari a 1.
+Siano $i_1$ e $i_2$ due punti di un reticolo temporale con passo $a=1$ e composto di $N$ elementi.
+Utilizzando la teoria del \emph{path integral} di Feynman, sappiamo che il correlatore è definito come
+$$ \left<x_{i_1},x_{i_2}\right> = \frac{1}{Z}\int\prod_{i=0}^{N-1}dx_i\,e^{-S}x_{i_1}x_{i_2} $$
+con $S$ funzionale dell'azione, che esplicitamente è pari a
+$$ S = a\sum_{i=0}^{N-1} \left[ \frac{m}{2} \left( \frac{x_{i+1}-x_i}{a} \right)^2+V(x_i)\right]$$
+
+Calcoliamo i correlatori utilizzando una catena di Markov e tutta la teoria vista fin qui per estrarre elementi con distribuzione di probabilità $e^{-S}/Z$. Ricordiamo che, dato uno stato della catena $E_j$, il correlatore su quello stato è dato da
+$$c_t=\frac{1}{N}\sum_{i=0}^{N-1}x_{i+t}x_i$$
+dove $N$ è sempre il numero di passi reticolari.
+
+La catena di Markov che abbiamo costruito con l'algoritmo del Metropolis dovrà però \emph{termalizzare} prima di essere pronta per poter calcolare i correlatori, ovvero dovrà stabilizzarsi intorno a un certo valore. Facciamo notare che aspettiamo la termalizzazione soltanto per ridurre l'errore che effettivamente commettiamo (aumentando l'efficienza del nostro algoritmo), il metodo rimane infatti valido anche considerando ogni \emph{sweep}, in quanto il contributo dei primi diminuisce a ogni iterazione.
+
+Dobbiamo anche tenere conto del fatto che, per calcolare il \emph{path integral} senza applicare correzioni, le variabili estratte dal nostro generatore di numeri casuali siano decorrelate. Non è questo il caso se prendiamo \emph{sweep} consecutivi delle catene di Markov, ma dobbiamo attendere un numero di sweep sufficienti.
+
+Per valutare il tempo Markoviano necessario alla decorrelazione degli stati, consideriamo la funzione di autocorrelazione
+$$\Gamma(t) = \left<a^ia^{i+t}\right>\left<a\right>^2$$
+dove $a$ è il nostro osservabile ($a=x_ix_j$) $t$ è il tempo Markoviano.
+
+L'andamento di $\Gamma(t)$ è esponenziale, eseguiamo dunque un fit per valutare il tempo entro il quale possiamo assumere le variabili come decorrelate. Il grafico ottenuto è normalizzato in quanto ogni quantità è stata divisa per $\Gamma(0)$.
+
+autocorr.png
+
+Il fit mostra che il tempo di autocorrelazione $\tau$ è circa pari a 30 sweep, da cui consideriamo gruppi di correlatori da 100 sweep. Per ognuno di questi gruppi calcoliamo il correlatore medio (per ogni passo del reticolo), e ricaviamo l'errore utilizzando i cluster Jackknife.
+
+Possiamo calcolare a questo punto il valore $\Delta E=E_1-E_0$ e l'elemento di matrice $\left<E_0|x|E_1\right>$. Calcoliamo soltanto i primi 4 elementi in quanto con il metodo utilizzato l'errore cresce esponenzialmente <FORMULA> all'aumentare della distanza reticolare.
+
+Notiamo che i risultati ottenuti si discostano da quelli che avremmo potuto ottenere risolvendo direttamente autovalori ed autovettodi dell'Hamiltoniana. La ragione di questo fatto consta principalmente nel fatto che i due risultati saranno equivalenti nel limite dei passi del reticolo $N\to\infty$ e $a\to0$.
 
 \section{Calcolo di equazioni differenziali}
+
+include{differenziali.tex}
 
 \end{document}

@@ -28,8 +28,11 @@ AgoBuffon::AgoBuffon()
 {
     m_gen = new boost::random::mt19937(time(0) + getpid());
 
-    for (int i = 1000; i < 10000; i += 1000) {
-        run(pow(i, 2), 1);
+//     for (int i = 1000; i < 10000; i += 1000) {
+//         run(pow(i, 2), 1);
+//     }
+    for (float i = 0.1; i < 1.; i+=.01) {
+        run(100000, i);
     }
 }
 
@@ -49,9 +52,11 @@ void AgoBuffon::run(int n, float L)
         tempcalc += tocco(x, y);
     }
 
-    debug(n);
+//     debug(n);
     picalc = 2*m_L*n/(float)tempcalc;
-    std::cout << picalc << std::endl;
+    float sigma2 = (2*m_L/picalc)*(1-2*m_L/picalc);
+    print(m_L,  sqrt(sigma2), picalc);
+//     std::cout << picalc << std::endl;
 }
 
 inline
