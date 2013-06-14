@@ -453,7 +453,7 @@ Il fit mostra che il tempo di autocorrelazione $\tau$ è circa pari a 30 sweep, 
  \includegraphics[scale=0.5]{../images/correlmedio.png}
 \end{center}
 
-Possiamo calcolare a questo punto il valore $\Delta E=E_1-E_0$ e l'elemento di matrice $\left<E_0|x|E_1\right>$. Calcoliamo soltanto i primi 4 elementi in quanto con il metodo utilizzato l'errore cresce esponenzialmente all'aumentare della distanza reticolare:
+Possiamo calcolare a questo punto il valore $\Delta E=E_1-E_0$. Calcoliamo soltanto i primi 4 elementi in quanto con il metodo utilizzato l'errore cresce esponenzialmente all'aumentare della distanza reticolare:
 
 $$\frac{\text{Var}(x_k, x_l)}{\left<x_k x_l\right>^2} \sim e^{\Delta E}$$
 
@@ -475,6 +475,65 @@ Notiamo che i risultati ottenuti si discostano da quelli che avremmo potuto otte
 
 \section{Calcolo di equazioni differenziali}
 
-include{differenziali.tex}
+La risoluzione numerica di equazioni differenziali è un problema molto comune in fisica. Il primo metodo che analizzeremo per risolvere queste equazioni fu sviluppato da Eulero, e si basa sulla definizione di derivata.
+
+Supponiamo infatti di avere un classico problema di Cauchy:
+$$
+\begin{cases}
+&\dot{x}(t)=f(x(t)) \\
+&x(t_0) = x_0
+\end{cases}
+$$
+
+Il metodo di Eulero non è altro che il troncamento al primo ordine della definizione:
+
+$$\dot{x} = \frac{x(t + \Delta t)-x(t)}{\Delta t} + o(\Delta t^2)$$
+
+Dunque conoscendo le condizioni iniziali, si fissa $\Delta t$ e si calcolano iterativamente le soluzioni per ogni passo.
+
+Il metodo di Eulero è però un metodo poco efficiente e molto impreciso, essendo solo del primo ordine. L'algoritmo di Runge-Kutta al quart'ordine è un raffinamento che cerca di migliorare la valutazione dell'incremento della funzione, utilizzando ulteriori punti di campionamento ed utilizzando derivate di ordine successivo.
+
+Per semplicità, consideriamo prima il metodo di Runge-Kutta del secondo ordine e sviluppiamo secondo Taylor la soluzione nei punti $t_n$ e $t_{n+1}$, centrando lo sviluppo nel punto intermedio. Procedendo in questo modo otteniamo una formula precisa fino al terzo ordine:
+
+$$ x(t_{n+1}) = x(t_n) + f(x(t_{n+1/2}), t_{n+1/2})h + o(h^3)$$
+
+Siccome poi $f(x(t_{n+1/2}), t_{n+1/2})$ ha un termine in $h$, è possibile calcolare $x(t_{n+1/2})$ con il metodo di Eulero e mantenere la precisione voluta al terzo ordine.
+
+L'estensione al quarto ordine è analoga. Scriviamo nuovamente l'espansione in serie, questa volta fino al quarto ordine
+$$ x_{n+1} = x_n + ak_1 + bk_2 + ck_3 + dk_4$$
+dove i coefficienti
+
+$$\begin{array}{rl}
+k_1 &:= hf(x_n, t_n) \\
+k_2 &:= hf(x_n + \frac{1}{2}k_1, t_{n+1/2}) \\
+k_3 &:= hf(x_n + \frac{1}{2}k_2, t_{n+1/2}) \\
+k_4 &:= hf(x_n + k_3, t_{n+1}) \\
+\end{array}$$
+
+Scegliamo i coefficienti in maniera opportuna ed arriviamo alla formula di Runge-Kutta del quarto ordine per il punto $t_{n+1}$
+
+$$x(t_{n+1}) = x(t_n) + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
+
+\subsection{Il pendolo forzato-smorzato}
+
+Utilizziamo i metodi di integrazione numerica di Runge-Kutta per risolvere alcuni esempi fisici. Studieremo in particolare il caso di un pendolo sottoposto ad attrito, forza peso e una forzante.
+
+Un pendolo semplice di braccio $R$ è descritto dalla classica equazione
+$$\ddot{\theta} = -\frac{g}{R}\sin(\theta)$$
+a cui va aggiunto il termine di attrito e il termine forzante. La nostra equazione diventa così
+$$\ddot{\theta} = -\frac{g}{R}\sin(\theta) -\frac{k}{m}\dot{\theta} + \frac{f}{mR}\cos(\omega t) $$
+
+Riduciamo l'equazione del secondo ordine ad un sistema di equazioni differenziali del primo ordine mediante il cambio di variabili
+
+$$
+\begin{cases}{rl}
+\dot{x_1}&=x_2 \\
+\dot{x_2}&=-\sin(x_1) - qx_2 +b\cos(\omega t)
+\end{cases}
+$$
+
+dove $q$ e $b$ rappresentano i coefficienti numerici ricavabili dalla precedente equazione.
+
+Poniamo come condizioni iniziali $x_1 = \pi/6$ e $x_2 = 0$ (pendolo fermo) e studiamo l'evoluzione nel piano delle fasi per diversi valori di $b$ e di $q$.
 
 \end{document}
