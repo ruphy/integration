@@ -76,9 +76,9 @@ void Sweeper::doSweep()
 
         m_correlator[j] = tempSum/N;
 
-        if (j == 3) {
+        if (j == 0) {
             // save the correlator for each markovian time
-            // for j = 3
+            // for j = 0
             m_corr_0.push_back(tempSum);
         }
 
@@ -118,8 +118,10 @@ std::vector< double > Sweeper::get_cluster(int i)
     }
     corr_m = corr_m/m_totalBins;
 
+    double a_k;
+    
     for (int k = 0; k < m_totalBins; k++) {
-        double a_k = corr_m - m_binnedCorrelator[k][i]/(m_totalBins-1);
+        a_k = corr_m - m_binnedCorrelator[k][i]/(m_totalBins-1);
         cluster.push_back(a_k);
     }
     return cluster;

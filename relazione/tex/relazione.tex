@@ -338,9 +338,9 @@ Variamo la lunghezza dell'ago e verifichiamo che la teoria venga effettivamente 
 
 Le catene di Markov sono un meccanismo per ottenere variabli casuali con distribuzioni di probabilità arbitrarie.
 
-Una catena di Markov è una serie di estrazioni che è caratterizzata dal fatto che ogni estrazione successiva alla prima dipende solamente dallo stato precedente del sistema.
+Una catena di Markov è una serie di estrazioni caratterizzata dal fatto che ogni estrazione successiva alla prima dipende solamente dallo stato precedente del sistema.
 
-Dato $E_k = (x_{1_k}, \dots, x_{n_k})$, uno stato del sistema nello spazio delle fasi, definiamo:
+Dato $E_k = (x_{1_k}, \dots, x_{n_k})$ stato del sistema nello spazio delle fasi, definiamo:
 \begin{itemize}
  \item $P_{jk}$ come la probabilità di estrarre lo stato $E_k$ a partire dallo stato $E_j$.
  \item $a_k$ come la probabilità di ottenere lo stato $E_k$ alla prima estrazione.
@@ -348,15 +348,17 @@ Dato $E_k = (x_{1_k}, \dots, x_{n_k})$, uno stato del sistema nello spazio delle
 
 Denotiamo inoltre con $f^{(n)}_{jk}$ la probabilità del sistema di passare dallo stato $j$ allo stato $k$ in $n$ passi.
 
-È possibile fare ogni tipo di calcolo sulla catena di Markov se si conosce $P_{jk}$ per ogni $j$ e per ogni $k$. Possiamo allora pensare di descrivere le transizioni della catena di Markov attraverso una matrice, detta anche \emph{matrice stocastica}. Notiamo come questa matrice abbia alcune ovvie proprietà:
+La catena di Markov è completamente determinata se si conosce $P_{jk}$ per ogni $j$ e per ogni $k$. Possiamo allora pensare di descrivere le transizioni della catena di Markov attraverso una matrice, detta anche \emph{matrice stocastica}. Notiamo come questa matrice abbia alcune ovvie proprietà, che derivano dal fatto che $P_{jk}$ è una probabilità:
 $$1\geq P_{jk} \geq 0\qquad \forall j \forall k$$
 $$\sum_k Pjk = 1$$
 
-Introduciamo il concetto di catena \emph{irriducibile}, che sarà il tipo di catena che ci interesserà. Una catena di Markov si dice irriducibile se tutti e soli i suoi stati formano un sistema chiuso, ovvero un insieme di stati per cui non è possibile raggiungere alcuno stato al di fuori di esso partendo dall'interno.
-In simboli, detto $A$ l'insieme di stati chiuso, ed essendo $E_k\in A$:
+Introduciamo ora il concetto di catena \emph{irriducibile}, che sarà il tipo di catena che ci interesserà. Cominciamo con dire che una catena di Markov può avere al suo interno insiemi di stati chiusi, ovvero un insieme di stati per cui non è possibile raggiungere alcuno stato al di fuori di esso. In simboli, detto $A$ l'insieme di stati chiuso, ed essendo $E_k\in A$, deve valere:
 $$P_{kl} = 0 \quad\text{se}\quad l\not\in A$$
 
-La probabilità di ottenere lo stato $E_k$ dallo stato $E_j$ una volta dopo un numero qualunque di passi è ovviamente dato da:
+Una catena di Markov si dice irriducibile se tutti e soli i suoi stati formano un sistema chiuso.
+
+Definiamo $f_{jk}^{(n)}$ come la probabilità di passare da $E_j$ a $E_k$ per la prima volta dopo $n$ iterazioni.
+La probabilità di ottenere lo stato $E_k$ dallo stato $E_j$ una volta dopo un numero qualunque di passi è allora ovviamente calcolabile come:
 $$f_{jk} = \sum_{n=1}^\infty f_{jk}^{(n)} $$
 e definiamo anche il tempo medio per ritornare nello stato $E_j$ come
 $$\mu_j = \sum_{n=1}^\infty n f_{jj}^{(n)}$$
@@ -379,64 +381,97 @@ Gli stati ergodici sono gli unici che ci interessano, nel senso spiegato dal seg
  
 \end{itemize}
 
-Gli stati ergodici sono gli unici per i quali esiste finito un limite per $P_{jk}$ che sia indipendente dallo stato iniziale, e dunque ci permettono di costruire una distribuzione di probabilità ben definita.
+Si capisce ora perché siano gli stati ergodici ad interessarci. Gli stati ergodici sono infatti gli unici per i quali esiste finito un limite per $P_{jk}$ che sia indipendente dallo stato iniziale, e dunque sono quelli che ci permettono di costruire una distribuzione di probabilità ben definita.
 
 \subsection{L'algoritmo di Metropolis}
-Con l'algoritmo Metropolis si possono generare facilmente catene di Markov. Il metodo non è il più efficiente conosciuto, ma è sufficientemente comodo per la nostra applicazione.
+Con l'algoritmo Metropolis si possono generare facilmente catene di Markov. Il metodo non è il più efficiente possibile, ma è un metodo sufficientemente comodo per la nostra applicazione.
 
 La creazione della catena si basa sulla generazione casuale di stati, che vengono iterativamente accettati o rigettati fino ad ottenere la distribuzione di probabilità cercata.
 
-Supponiamo di avere un problema fisico per il quale si ha bisogno di una distribuzione di probabilità $R$. Dunque, data una catena di Markov in un generico stato $E_j$, creiamo uno stato di prova $E_{j+1}$ con una trasformazione qualunque.
-Il nuovo stato $E_{j+1}$ sarà accettato con probabilità $P = \max(1, R_{j+1}/R_j)$, dove $R_i = R(E_i)$. Iterando questo procedimento si ottiene la distribuzione di probabilità voluta.
+Supponiamo di avere un problema fisico per il quale si ha bisogno di una distribuzione di probabilità $R$. Dunque, data una catena di Markov in un generico stato $E_j$, creiamo uno stato di prova $E_{j+1}$ a partire dal precedente in un modo casuale qualunque (ad esempio, $x^i_{(j+1)}:=x^i_j+R$ con $R$ casuale tra -1 e 1).
+Il nuovo stato $E_{j+1}$ sarà accettato con probabilità $$P = \max(1, R_{j+1}/R_j)$$ dove $R_i = R(E_i)$. Iterando questo procedimento si ottiene la distribuzione di probabilità voluta.
 
 \subsection{La propagazione degli errori automatizzata}
-Una volta ottenuta la distribuzione cercata, e isolati degli osservabili $a_i$, è spesso necessario valutare alcune funzioni $f(a_i)$ degli osservabili stessi. Questo può essere problematico nel momento in cui cerchiamo di propagare l'errore statistico dell'osservabile, specialmente nel caso in cui sia complicato automatizzare il calcolo delle derivate di $f$.
+Una volta ottenuta la distribuzione cercata, e isolati degli osservabili $a_i$, è spesso necessario valutare alcune funzioni $f(a_i)$ degli osservabili stessi. Questo può essere problematico nel momento in cui cerchiamo di propagare l'errore statistico dell'osservabile, specialmente nel caso la formulazione analitica delle derivate di $f$ non sia banale.
 
 Per ovviare a questo ostacolo, si utilizza un metodo matematico chiamato \emph{metodo di Jacknife}.
 Questo metodo consiste fondamentalmente in un cambio di variabili. Dati $a_1,\dots,a_N$ degli osservabili di valor medio $\bar{a}$, definiamo
 $$a^k := \frac{1}{N-1}\sum_{i=1}^N(a_i-a_k) = \bar{a}-\frac{a_k-\bar{a}}{N-1}$$
 
-Queste nuove variabili $a^k$ hanno due interessanti proprietà.
+Queste nuove variabili $a^k$ hanno due interessanti proprietà. Innanzitutto hanno stessa media e stessa varianza delle variabili di partenza:
 $$\left<a^k\right> = \bar{a} $$
 $$\text{Var}(\left<a^k\right>) = \text{Var}(\bar{a}) $$
 e se definiamo
 $$f^k:=f(a^k)$$
-non solo
+non solo il valor medio della funzione viene conservato
 $$\left<f^k\right> = \bar{f}$$
-ma anche
+ma anche il calcolo della varianza diventa banale
 $$\text{Var}(\bar{f}) = \frac{N-1}{N} \sum_k (f^k-\bar{f})^2 = \text{Var}(\left<f^k\right>)$$
 dunque evitando il calcolo delle derivate. Infatti se non avessimo effettuato il cambio di variabile:
 $$\text{Var}(\bar{f}) = \text{Var}(\bar{a})\left(\frac{\partial f}{\partial a}\right)^2 $$
 
 \subsection{Oscillatore armonico}
 Utilizziamo la teoria descritta fin qui per calcolare i livelli energetici di un oscillatore armonico con gli integrali di cammino di Feynman. Poniamo per semplicità $m, \hbar$ e $\omega$ pari a 1.
-Siano $i_1$ e $i_2$ due punti di un reticolo temporale con passo $a=1$ e composto di $N$ elementi.
+Siano $i_1$ e $i_2$ due punti di un reticolo temporale con passo $a=1$ e composto di $N$ elementi (nel nostro caso, $N=64$).
 Utilizzando la teoria del \emph{path integral} di Feynman, sappiamo che il correlatore è definito come
 $$ \left<x_{i_1},x_{i_2}\right> = \frac{1}{Z}\int\prod_{i=0}^{N-1}dx_i\,e^{-S}x_{i_1}x_{i_2} $$
-con $S$ funzionale dell'azione, che esplicitamente è pari a
+con $S$ funzionale dell'azione:
 $$ S = a\sum_{i=0}^{N-1} \left[ \frac{m}{2} \left( \frac{x_{i+1}-x_i}{a} \right)^2+V(x_i)\right]$$
 
-Calcoliamo i correlatori utilizzando una catena di Markov e tutta la teoria vista fin qui per estrarre elementi con distribuzione di probabilità $e^{-S}/Z$. Ricordiamo che, dato uno stato della catena $E_j$, il correlatore su quello stato è dato da
-$$c_t=\frac{1}{N}\sum_{i=0}^{N-1}x_{i+t}x_i$$
+Calcoliamo i correlatori utilizzando una catena di Markov (attraverso l'algoritmo di Metropolis) per estrarre elementi con distribuzione di probabilità $e^{-S}/Z$. Ricordiamo che, dato uno stato della catena $E_j=(x_0\dots x_{N-1})$, il correlatore su quello stato è calcolabile come:
+$$c_t=\frac{1}{N}\sum_{i=0}^{N-1}x_ix_{i+t}$$
 dove $N$ è sempre il numero di passi reticolari.
 
-La catena di Markov che abbiamo costruito con l'algoritmo del Metropolis dovrà però \emph{termalizzare} prima di essere pronta per poter calcolare i correlatori, ovvero dovrà stabilizzarsi intorno a un certo valore. Facciamo notare che aspettiamo la termalizzazione soltanto per ridurre l'errore che effettivamente commettiamo (aumentando l'efficienza del nostro algoritmo), il metodo rimane infatti valido anche considerando ogni \emph{sweep}, in quanto il contributo dei primi diminuisce a ogni iterazione.
+Possiamo già calcolare il correlatore medio (ovvero il correlatore $c_t$ mediato su tutti i tempi Markoviani) e disegnarlo in funzione della distanza reticolare.
 
-Dobbiamo anche tenere conto del fatto che, per calcolare il \emph{path integral} senza applicare correzioni, le variabili estratte dal nostro generatore di numeri casuali siano decorrelate. Non è questo il caso se prendiamo \emph{sweep} consecutivi delle catene di Markov, ma dobbiamo attendere un numero di sweep sufficienti.
+\begin{center}
+ \includegraphics[scale=0.5]{../images/correlmediocorr.png}
+\end{center}
+
+Notiamo che, come ci aspettiamo, il grafico è perfettamente simmetrico.
+
+Raffiniamo ora la nostra analisi. Possiamo migliorare il nostro algoritmo aspettando un tempo Markoviano sufficiente a far sì che la catena di Markov che abbiamo costruito con l'algoritmo del Metropolis \emph{termalizzi}, ovvero in modo tale che l'azione si stabilizzi intorno a un certo valore. Si noti che si ricerca la termalizzazione soltanto per ridurre l'errore che effettivamente commettiamo (aumentando dunque l'efficienza del nostro algoritmo). Il metodo rimane infatti valido anche considerando ogni \emph{sweep}, poiché il contributo dei primi \emph{sweep} diminuisce a ogni iterazione.
+\begin{center}
+ \includegraphics[scale=0.5]{../images/termalizzazione.png}
+\end{center}
+
+Per calcolare i livelli energetici correttamente, dobbiamo anche tenere conto del fatto che per calcolare il \emph{path integral} senza applicare correzioni, le variabili estratte dal nostro generatore di numeri casuali debbano essere decorrelate. Non è questo il caso se prendiamo semplicemente \emph{sweep} consecutivi delle catene di Markov, ma dobbiamo attendere un numero di sweep sufficienti.
 
 Per valutare il tempo Markoviano necessario alla decorrelazione degli stati, consideriamo la funzione di autocorrelazione
 $$\Gamma(t) = \left<a^ia^{i+t}\right>\left<a\right>^2$$
-dove $a$ è il nostro osservabile ($a=x_ix_j$) $t$ è il tempo Markoviano.
+dove $a$ è il nostro osservabile ($a=x_ix_j$) e $t$ è il tempo Markoviano.
 
 L'andamento di $\Gamma(t)$ è esponenziale, eseguiamo dunque un fit per valutare il tempo entro il quale possiamo assumere le variabili come decorrelate. Il grafico ottenuto è normalizzato in quanto ogni quantità è stata divisa per $\Gamma(0)$.
 
-autocorr.png
+\begin{center}
+ \includegraphics[scale=0.5]{../images/autocorr.png}
+\end{center}
 
-Il fit mostra che il tempo di autocorrelazione $\tau$ è circa pari a 30 sweep, da cui consideriamo gruppi di correlatori da 100 sweep. Per ognuno di questi gruppi calcoliamo il correlatore medio (per ogni passo del reticolo), e ricaviamo l'errore utilizzando i cluster Jackknife.
+Il fit mostra che il tempo di autocorrelazione $\tau$ è circa pari a 30 sweep, da cui consideriamo gruppi di correlatori da 100 sweep. Per ognuno di questi gruppi calcoliamo il correlatore medio come sopra, e ricaviamo l'errore utilizzando i cluster Jacknife.
 
-Possiamo calcolare a questo punto il valore $\Delta E=E_1-E_0$ e l'elemento di matrice $\left<E_0|x|E_1\right>$. Calcoliamo soltanto i primi 4 elementi in quanto con il metodo utilizzato l'errore cresce esponenzialmente <FORMULA> all'aumentare della distanza reticolare.
+\begin{center}
+ \includegraphics[scale=0.5]{../images/correlmedio.png}
+\end{center}
+
+Possiamo calcolare a questo punto il valore $\Delta E=E_1-E_0$ e l'elemento di matrice $\left<E_0|x|E_1\right>$. Calcoliamo soltanto i primi 4 elementi in quanto con il metodo utilizzato l'errore cresce esponenzialmente all'aumentare della distanza reticolare:
+
+$$\frac{\text{Var}(x_k, x_l)}{\left<x_k x_l\right>^2} \sim e^{\Delta E}$$
+
+\begin{center}
+\begin{tabular}{c|c|c}
+\hline
+Distanza reticolare & $\Delta E$ & $\sigma$ \\
+\hline
+1 & 0.966 & 0.019\\
+2&0.949&0.033 \\
+3&0.827 &0.107 \\
+4&1.391 &0.235 \\
+\hline
+\end{tabular}
+\end{center}
 
 Notiamo che i risultati ottenuti si discostano da quelli che avremmo potuto ottenere risolvendo direttamente autovalori ed autovettodi dell'Hamiltoniana. La ragione di questo fatto consta principalmente nel fatto che i due risultati saranno equivalenti nel limite dei passi del reticolo $N\to\infty$ e $a\to0$.
+
 
 \section{Calcolo di equazioni differenziali}
 

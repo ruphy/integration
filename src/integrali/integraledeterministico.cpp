@@ -35,7 +35,7 @@ IntegraleDeterministico::IntegraleDeterministico(int a, int b)
     setIntervalli(10);
     std::cout.precision(std::numeric_limits<real>::digits10 + 1);
 
-    m_f.assign("417.8077683550236335115029616847558823314866942");
+//     m_f.assign("417.8077683550236335115029616847558823314866942"); // UNCOMMENT when using gmp numbers
     setMinIterations(2);
     setMaxIterations(pow(10, 6));
     setExecType(EsBase::Quadratic);

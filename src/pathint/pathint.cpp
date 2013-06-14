@@ -20,7 +20,7 @@
 
 #include "pathint.h"
 
-#include <boost/random/uniform_real_distribution.hpp>
+// #include <boost/random/uniform_real_distribution.hpp>
 #include <boost/random/mersenne_twister.hpp>
 
 #include <functional>
@@ -54,11 +54,11 @@ void PathInt::exec(int sweepN)
 
         double *meanCorr = m_sweeper->meanCorrelator();
         for (int i = 0; i < m_sweeper->nElements(); i++) {
-//             print(i, meanCorr[i]);
+            print(i, meanCorr[i]);
         }
 
         std::vector<double> corr_0 = m_sweeper->corr_0();
-        double meancorr_0 = meanCorr[3];
+        double meancorr_0 = meanCorr[0];
         double gamma0 = 0;
 
         for (int t = 0; t < 100; t++) {
@@ -75,7 +75,7 @@ void PathInt::exec(int sweepN)
                 gamma0 = variance;
             }
 
-            print(t, fabs(variance/gamma0));
+//             print(t, variance/gamma0);
         }
 
         for (int i = 0; i < m_sweeper->nElements(); i++) {
@@ -110,7 +110,9 @@ void PathInt::exec(int sweepN)
 
             double variance = 0.0;
             for (std::vector<double>::iterator j = Ek.begin(); j != Ek.end(); j++) {
-                variance += std::pow(*j-mean, 2);
+                variance += std::pow((*j)-mean, 2);
+
+//                 print(1, (*j));
             }
             variance *= (double)(m_sweeper->nElements()-1)/m_sweeper->nElements();
 
