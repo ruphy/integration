@@ -57,7 +57,14 @@ void PiCalc::run(int n, float L)
 
 //     debug(n);
     picalc = 4*m/(float)n;
-    print(n, picalc);
+    
+    std::ofstream ofs;
+    ofs.open ("/afs/cern.ch/user/r/riaconel/private/out-int.csv", std::ofstream::out | std::ofstream::app);
+    ofs << n << picalc;
+    ofs.close();
+
+//   return 0;
+//     print(n, picalc);
 //     print(m_L,  sqrt(sigma2), picalc);
 //     std::cout << picalc << std::endl;
 }
