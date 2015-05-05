@@ -25,8 +25,8 @@
 #include <iostream>
 #include <string>
 
-typedef double real;
-// typedef boost::multiprecision::mpf_float_50 real;
+// typedef double real;
+typedef boost::multiprecision::mpf_float_50 real;
 
 class EsBase
 {
