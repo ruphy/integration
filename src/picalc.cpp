@@ -57,11 +57,11 @@ void PiCalc::run(int n, float L)
     }
 
 //     debug(n);
-    picalc = 4*m/(float)n;
+    picalc = ((long double)(4*m))/(long double)n;
     
     std::ofstream ofs;
     ofs.open ("/afs/cern.ch/user/r/riaconel/private/out-int.csv", std::ofstream::out | std::ofstream::app);
-    ofs << picalc;
+    ofs << picalc << std::endl;
     ofs.close();
 
 //   return 0;
