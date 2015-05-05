@@ -46,7 +46,7 @@ void PiCalc::run(int n, float L)
 
     m_L = L;
 
-    unsigned long double picalc;
+    long double picalc;
     unsigned long int m = 0;
 //     unsigned long int N = 0;
 
