@@ -34,7 +34,7 @@ protected:
     virtual void exec(int n) {};
 
 private:
-    void run(int n, float L);
+    void run(unsigned long n, float L);
     unsigned int tocco(float x, float y);
 
     boost::random::mt19937* m_gen;

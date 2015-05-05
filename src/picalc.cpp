@@ -32,14 +32,14 @@ PiCalc::PiCalc()
     m_gen = new boost::random::mt19937(time(0) + getpid());
 
 //     for (int i = 1000; i < 10000; i += 1000) {
-    run(pow(10, 10), 1);
+    run(pow(10, 13), 1);
 //     }
 //     for (float i = 0.1; i < 1.; i+=.01) {
 //         run(100000, i);
 //     }
 }
 
-void PiCalc::run(int n, float L)
+void PiCalc::run(unsigned long n, float L)
 {
     boost::random::uniform_real_distribution<float> distx(-1, 1);
     boost::random::uniform_real_distribution<float> disty(-1, 1);
@@ -63,7 +63,7 @@ void PiCalc::run(int n, float L)
     std::ofstream ofs;
     
     ofs.precision(std::numeric_limits<real>::digits10 + 1);
-    ofs.open ("out-int.csv", std::ofstream::out | std::ofstream::app);
+    ofs.open ("/afs/cern.ch/user/r/riaconel/private/integration/build/out-int-13.csv", std::ofstream::out | std::ofstream::app);
     ofs << picalc << std::endl;
     ofs.close();
 
