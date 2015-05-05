@@ -3,6 +3,7 @@
 
 #include "src/serie.h"
 #include "src/esbase.h"
+#include "src/picalc.h"
 #include "src/integrali/integralemc.h"
 #include "src/integrali/integraledeterministico.h"
 #include "src/agobuffon.h"
@@ -17,6 +18,7 @@ public:
         IntDeterm,
         IntMontecarlo,
         AgoBuffonTipo,
+        PiCalcTipo,
         PathIntegral
 
     };
@@ -41,8 +43,8 @@ void Esercizi::run(Esercizi::Esercizio tipo)
     case AgoBuffonTipo:
         es = new AgoBuffon;
         break;
-    case PathIntegral:
-        es = new PathInt;
+    case PiCalcTipo:
+        es = new PiCalc;
         break;
     default:
         std::cout << "Esercizio non ancora implementato" << std::endl;
@@ -55,7 +57,7 @@ void Esercizi::run(Esercizi::Esercizio tipo)
 int main(int argc, char **argv)
 {
     Esercizi es;
-    es.run(Esercizi::PathIntegral);
+    es.run(Esercizi::PiCalcTipo);
 
     return 0;
 }
