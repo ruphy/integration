@@ -32,7 +32,7 @@ PiCalc::PiCalc()
     m_gen = new boost::random::mt19937(time(0) + getpid());
 
 //     for (int i = 1000; i < 10000; i += 1000) {
-    run(pow(10, 13), 1);
+    run(pow(10, 12), 1);
 //     }
 //     for (float i = 0.1; i < 1.; i+=.01) {
 //         run(100000, i);
